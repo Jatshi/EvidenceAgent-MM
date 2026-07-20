@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Evidence-grounded multimodal meeting assistant demo">
+  <title>EvidenceAgent-MM</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07101a; --panel: #0c1925; --panel-2: #102334; --line: #2a465d;
+      --ink: #edf7ff; --muted: #a8bbca; --cyan: #55e6d5; --amber: #ffc76b;
+      --red: #ff7f86; --blue: #8cbcff; --radius: 18px;
+      --display: "IBM Plex Sans", "Avenir Next", sans-serif;
+      --mono: "IBM Plex Mono", "Cascadia Code", monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; color: var(--ink); font: 15px/1.6 var(--display);
+      background: var(--bg); min-height: 100vh;
+      background-image: linear-gradient(#16304755 1px, transparent 1px), linear-gradient(90deg, #16304755 1px, transparent 1px);
+      background-size: 42px 42px;
+    }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(circle at 75% 0,#164b6255,transparent 35%); }
+    main { position:relative; max-width:1180px; margin:auto; padding:48px 24px 70px; }
+    nav { height:64px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); margin-bottom:38px; font:700 12px var(--mono); letter-spacing:.08em; }
+    nav a { color:var(--cyan); text-decoration:none; } nav a:hover { text-decoration:underline; }
+    .hero { display:grid; grid-template-columns:1.25fr .75fr; gap:50px; align-items:end; margin-bottom:34px; }
+    .eyebrow { color:var(--cyan); text-transform:uppercase; letter-spacing:.16em; font:700 12px var(--mono); margin-bottom:14px; }
+    h1 { font-size:clamp(46px,7.5vw,88px); line-height:.91; letter-spacing:-.065em; margin:0; max-width:790px; }
+    h1 span { color:var(--cyan); }
+    .intro { color:var(--muted); font-size:17px; max-width:430px; margin:0; }
+    .shell { display:grid; grid-template-columns:minmax(280px,.72fr) minmax(0,1.28fr); border:1px solid var(--line); border-radius:var(--radius); background:#081521e8; box-shadow:0 28px 90px #0008; overflow:hidden; }
+    .query { padding:26px; border-right:1px solid var(--line); background:#0b1824; }
+    .result { padding:26px; min-height:520px; }
+    label { display:block; color:var(--muted); font:700 11px var(--mono); text-transform:uppercase; letter-spacing:.1em; margin-bottom:6px; }
+    textarea,input { width:100%; color:var(--ink); background:#06111b; border:1px solid #34536b; border-radius:10px; padding:12px 13px; margin:0 0 17px; font:inherit; }
+    textarea { resize:vertical; min-height:112px; }
+    input:focus,textarea:focus,button:focus-visible { outline:3px solid #55e6d566; outline-offset:2px; border-color:var(--cyan); }
+    button { width:100%; background:var(--cyan); color:#04130f; border:0; border-radius:10px; padding:13px 18px; font:800 14px var(--mono); cursor:pointer; transition:transform .2s,filter .2s; }
+    button:hover { filter:brightness(1.08); transform:translateY(-1px); } button:disabled { opacity:.55; cursor:wait; transform:none; }
+    .privacy { margin:18px 0 0; color:var(--muted); font-size:12px; }
+    .result-head { display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:34px; }
+    h2 { margin:0; font-size:15px; font-family:var(--mono); letter-spacing:.02em; }
+    .chip { border:1px solid var(--line); border-radius:999px; padding:5px 10px; color:var(--muted); font:700 11px var(--mono); text-transform:uppercase; }
+    .chip.answered { color:var(--cyan); border-color:#55e6d577; } .chip.abstained { color:var(--red); border-color:#ff7f8677; } .chip.needs_clarification { color:var(--amber); border-color:#ffc76b77; }
+    .empty { min-height:420px; display:grid; place-items:center; color:var(--muted); text-align:center; }
+    .empty strong { display:block; color:var(--ink); font-size:20px; margin-bottom:5px; }
+    .answer { font-size:19px; line-height:1.55; margin:24px 0; max-width:760px; }
+    .confidence { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin:18px 0 26px; }
+    .meter { background:var(--panel-2); border-radius:8px; padding:10px; min-width:0; }
+    .meter b { display:block; font:700 15px var(--mono); color:var(--cyan); } .meter span { color:var(--muted); font:10px var(--mono); text-transform:uppercase; }
+    .section-title { color:var(--muted); font:700 11px var(--mono); text-transform:uppercase; letter-spacing:.12em; margin:22px 0 9px; }
+    .evidence-list { display:grid; gap:9px; }
+    .evidence { display:grid; grid-template-columns:92px 1fr; gap:14px; padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--panel); }
+    .time { color:var(--amber); font:700 12px var(--mono); } .quote { color:#dbeaf5; } .meta { color:var(--muted); font:11px var(--mono); margin-top:5px; }
+    .missing { padding:14px; border:1px dashed #ff7f8688; color:#ffd5d8; border-radius:10px; }
+    details { margin-top:18px; color:var(--muted); } summary { cursor:pointer; font-family:var(--mono); } pre { white-space:pre-wrap; word-break:break-word; font:11px/1.5 var(--mono); }
+    @media(max-width:820px){ .hero,.shell{grid-template-columns:1fr}.query{border-right:0;border-bottom:1px solid var(--line)}.confidence{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:440px){ main{padding:32px 14px}.evidence{grid-template-columns:1fr}.result,.query{padding:20px} }
+    @media(prefers-reduced-motion:reduce){ *{scroll-behavior:auto!important;transition:none!important} }
+  </style>
+</head>
+<body><main>
+  <nav data-role="nav" data-height-px="64" data-single-line="true"><span>EA//MM</span><a href="/docs">OPENAPI SCHEMA</a></nav>
+  <section class="hero" data-layout="hero">
+    <div><div class="eyebrow" data-role="eyebrow">auditable multimodal intelligence</div><h1>Answers need<br><span>receipts.</span></h1></div>
+    <p class="intro" data-role="hero-subtext">面向嘈杂会议与课堂的多模态助手。每个主张都绑定可回放的说话人、时间戳和屏幕证据；材料不足时，系统会追问或拒答。</p>
+  </section>
+  <section class="shell" data-layout="split" aria-label="Evidence query console">
+    <form class="query" id="query-form">
+      <label for="session">Session ID</label><input id="session" value="eamm-000" autocomplete="off">
+      <label for="question">Question</label><textarea id="question">谁提出了方案-00，当时屏幕上是第几页？</textarea>
+      <button id="ask" type="submit">RETRIEVE + VERIFY</button>
+      <p class="privacy">Demo 默认监听本机地址。生产部署前必须增加鉴权、限流与媒体访问控制。</p>
+    </form>
+    <section class="result" data-layout="stack" aria-live="polite">
+      <div class="result-head"><h2>EVIDENCE REPORT</h2><span id="status" class="chip">idle</span></div>
+      <div id="content" class="empty"><div><strong>等待查询</strong>回答、证据链与工具 trace 将在这里出现。</div></div>
+    </section>
+  </section>
+</main><script>
+const form=document.querySelector('#query-form'),button=document.querySelector('#ask'),content=document.querySelector('#content'),statusChip=document.querySelector('#status');
+const el=(tag,className,text)=>{const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node};
+const meter=(name,value)=>{const box=el('div','meter');box.append(el('b','',`${Math.round(value*100)}%`),el('span','',name));return box};
+function render(body){
+  content.replaceChildren();content.className='';statusChip.textContent=body.status;statusChip.className=`chip ${body.status}`;
+  const answer=body.answer||body.clarifying_question||'现有材料不足，系统拒绝生成答案。';content.append(el('p','answer',answer));
+  const confidence=el('div','confidence');Object.entries(body.confidence||{}).forEach(([k,v])=>confidence.append(meter(k,v)));content.append(confidence);
+  if(body.citations?.length){content.append(el('div','section-title','Cited evidence'));const list=el('div','evidence-list');body.citations.forEach(c=>{const card=el('article','evidence');card.append(el('div','time',`${(c.start_ms/1000).toFixed(1)}–${(c.end_ms/1000).toFixed(1)}s`));const info=el('div');info.append(el('div','quote',c.quote||'(no text)'));info.append(el('div','meta',`${c.evidence_id} · ${c.modality} · ${c.speaker_id||'no speaker'}${c.page_no?` · page ${c.page_no}`:''}`));card.append(info);list.append(card)});content.append(list)}
+  if(body.missing_evidence?.length){content.append(el('div','section-title','Missing evidence'));content.append(el('div','missing',body.missing_evidence.join(' · ')))}
+  const trace=el('details');trace.append(el('summary','',`Tool trace · ${body.trace_id||'n/a'}`));trace.append(el('pre','',JSON.stringify(body.trace||[],null,2)));content.append(trace);
+}
+form.addEventListener('submit',async event=>{event.preventDefault();button.disabled=true;statusChip.textContent='retrieving';statusChip.className='chip';content.className='empty';content.textContent='正在检索并核验证据…';try{const response=await fetch('/v1/query',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({session_id:document.querySelector('#session').value,question:document.querySelector('#question').value})});const body=await response.json();if(!response.ok)throw new Error(body.detail||`HTTP ${response.status}`);render(body)}catch(error){statusChip.textContent='error';statusChip.className='chip abstained';content.className='missing';content.textContent=String(error)}finally{button.disabled=false}});
+</script></body></html>

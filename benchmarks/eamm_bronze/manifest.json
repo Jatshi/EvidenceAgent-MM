@@ -1,0 +1,10 @@
+{
+  "name": "EAMM-Bench Bronze",
+  "version": "0.1.0",
+  "license": "CC0-1.0",
+  "seed": 7,
+  "sessions": 12,
+  "questions": 120,
+  "raw_media_redistributable": true,
+  "synthetic": true
+}

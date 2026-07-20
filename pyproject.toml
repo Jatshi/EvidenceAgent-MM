@@ -1,0 +1,80 @@
+[project]
+name = "evidenceagent-mm"
+version = "0.1.0"
+description = "Evidence-grounded multimodal assistant for noisy meetings and classrooms"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Jianting Shi" }]
+keywords = ["multimodal-rag", "agent", "evidence", "meeting", "diarization"]
+dependencies = [
+  "fastapi>=0.115,<1",
+  "numpy>=1.26,<3",
+  "pydantic>=2.10,<3",
+  "python-multipart>=0.0.18,<1",
+  "uvicorn[standard]>=0.34,<1",
+]
+
+[project.optional-dependencies]
+gpu = [
+  "accelerate>=1.2,<2",
+  "faster-whisper>=1.1,<2",
+  "sentence-transformers>=3.4,<6",
+  "torch==2.10.0",
+  "transformers>=4.51,<6",
+]
+ocr = ["paddleocr>=3.0,<4"]
+diarization = ["pyannote.audio>=3.3,<5"]
+dev = [
+  "build>=1.2,<2",
+  "httpx>=0.28,<1",
+  "mypy>=1.14,<2",
+  "pre-commit>=4,<5",
+  "pytest>=8.3,<10",
+  "pytest-cov>=6,<8",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+eamm = "evidenceagent_mm.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/jianting-shi/EvidenceAgent-MM"
+Issues = "https://github.com/jianting-shi/EvidenceAgent-MM/issues"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/evidenceagent_mm"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["evidenceagent_mm"]
+branch = true
+omit = [
+  "src/evidenceagent_mm/__main__.py",
+  "src/evidenceagent_mm/generation.py",
+  "src/evidenceagent_mm/perception.py",
+]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+plugins = ["pydantic.mypy"]

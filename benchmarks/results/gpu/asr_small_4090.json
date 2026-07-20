@@ -1,0 +1,46 @@
+{
+  "backend": "faster-whisper",
+  "model": "small",
+  "gpu_before": "NVIDIA GeForce RTX 4090, 570.124.04, 1 MiB, 24564 MiB, 0 %",
+  "gpu_after": "NVIDIA GeForce RTX 4090, 570.124.04, 1019 MiB, 24564 MiB, 27 %",
+  "elapsed_seconds": 4.420090161263943,
+  "atoms": [
+    {
+      "evidence_id": "synthetic-gpu-smoke:asr:00000",
+      "session_id": "synthetic-gpu-smoke",
+      "modality": "transcript",
+      "start_ms": 0,
+      "end_ms": 5460,
+      "text": "I propose design B, because it reduces retrieval latency to 42 milliseconds.",
+      "source_uri": "media://meeting.mp4#t=0.000,5.460",
+      "speaker_id": null,
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.676025403663516,
+      "attributes": {
+        "backend": "faster-whisper",
+        "model": "runtime-configured"
+      }
+    },
+    {
+      "evidence_id": "synthetic-gpu-smoke:asr:00001",
+      "session_id": "synthetic-gpu-smoke",
+      "modality": "transcript",
+      "start_ms": 7480,
+      "end_ms": 11760,
+      "text": "I suggest we renew the budget and delivery risk next week.",
+      "source_uri": "media://meeting.mp4#t=7.480,11.760",
+      "speaker_id": null,
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.676025403663516,
+      "attributes": {
+        "backend": "faster-whisper",
+        "model": "runtime-configured"
+      }
+    }
+  ],
+  "reference": "I propose design B because it reduces retrieval latency to forty two milliseconds. I suggest we review the budget and delivery risk next week.",
+  "hypothesis": "I propose design B, because it reduces retrieval latency to 42 milliseconds. I suggest we renew the budget and delivery risk next week.",
+  "wer": 0.125
+}

@@ -1,0 +1,15 @@
+stages:
+  bronze:
+    cmd: eamm make-benchmark benchmarks/eamm_bronze --sessions 12
+    deps:
+      - src/evidenceagent_mm/benchmark.py
+    outs:
+      - benchmarks/eamm_bronze
+  evaluate:
+    cmd: eamm --db results/eamm.db benchmark benchmarks/eamm_bronze --output results/exp_001/metrics.json
+    deps:
+      - benchmarks/eamm_bronze
+      - src/evidenceagent_mm
+    metrics:
+      - results/exp_001/metrics.json:
+          cache: false

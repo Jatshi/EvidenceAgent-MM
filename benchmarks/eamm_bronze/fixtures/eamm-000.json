@@ -1,0 +1,58 @@
+{
+  "session_id": "eamm-000",
+  "title": "Synthetic meeting 000",
+  "duration_ms": 30000,
+  "source_license": "CC0-1.0",
+  "atoms": [
+    {
+      "evidence_id": "eamm-000:utt:01",
+      "session_id": "eamm-000",
+      "modality": "transcript",
+      "start_ms": 10000,
+      "end_ms": 14000,
+      "text": "我提议采用方案-00，因为它把检索延迟降低到 40 毫秒。",
+      "source_uri": "media://eamm-000.mp4#t=10,14",
+      "speaker_id": "SPEAKER_00",
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.96,
+      "attributes": {}
+    },
+    {
+      "evidence_id": "eamm-000:ocr:01",
+      "session_id": "eamm-000",
+      "modality": "ocr",
+      "start_ms": 9000,
+      "end_ms": 18000,
+      "text": "方案-00：P95 延迟 40 ms",
+      "source_uri": "image://eamm-000-slide-05.png",
+      "speaker_id": null,
+      "page_no": 5,
+      "bbox": null,
+      "confidence": 0.94,
+      "attributes": {}
+    },
+    {
+      "evidence_id": "eamm-000:utt:02",
+      "session_id": "eamm-000",
+      "modality": "transcript",
+      "start_ms": 21000,
+      "end_ms": 25000,
+      "text": "我建议下周再讨论预算和交付风险。",
+      "source_uri": "media://eamm-000.mp4#t=21,25",
+      "speaker_id": "SPEAKER_01",
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.95,
+      "attributes": {}
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "eamm-000:utt:01",
+      "target_id": "eamm-000:ocr:01",
+      "relation": "shown_during",
+      "confidence": 0.94
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "date": "2026-07-20",
+  "platform": "AutoDL",
+  "kernel": "5.15.0-97-generic",
+  "python": "3.10.8",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "gpu_memory_mib": 24564,
+  "driver": "570.124.04",
+  "compute_capability": [8, 9],
+  "torch": "2.10.0+cu128",
+  "torch_cuda": "12.8",
+  "transformers": "5.14.1",
+  "faster_whisper": "1.2.1",
+  "sentence_transformers": "5.6.0",
+  "model_revisions": {
+    "Systran/faster-whisper-small": "536b0662742c02347bc0e980a01041f333bce120",
+    "BAAI/bge-m3": "5617a9f61b028005a4858fdac845db406aefb181"
+  },
+  "notes": [
+    "PyTorch CUDA 13.0 default wheel failed the driver compatibility gate.",
+    "The verified environment pins the official CUDA 12.8 wheel.",
+    "Hugging Face downloads used an HTTPS mirror because the direct endpoint timed out from AutoDL."
+  ]
+}

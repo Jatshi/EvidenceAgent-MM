@@ -1,0 +1,120 @@
+{"question_id": "eamm-000:answer:0", "session_id": "eamm-000", "question": "谁提出了方案-00，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-000:utt:01", "eamm-000:ocr:01"]}
+{"question_id": "eamm-000:answer:1", "session_id": "eamm-000", "question": "谁提出了方案-00，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-000:utt:01", "eamm-000:ocr:01"]}
+{"question_id": "eamm-000:answer:2", "session_id": "eamm-000", "question": "谁提出了方案-00，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-000:utt:01", "eamm-000:ocr:01"]}
+{"question_id": "eamm-000:answer:3", "session_id": "eamm-000", "question": "谁提出了方案-00，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-000:utt:01", "eamm-000:ocr:01"]}
+{"question_id": "eamm-000:answer:4", "session_id": "eamm-000", "question": "谁提出了方案-00，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-000:utt:01", "eamm-000:ocr:01"]}
+{"question_id": "eamm-000:answer:5", "session_id": "eamm-000", "question": "谁提出了方案-00，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-000:utt:01", "eamm-000:ocr:01"]}
+{"question_id": "eamm-000:clarify:0", "session_id": "eamm-000", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-000:clarify:1", "session_id": "eamm-000", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-000:abstain:0", "session_id": "eamm-000", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-000:abstain:1", "session_id": "eamm-000", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-001:answer:0", "session_id": "eamm-001", "question": "谁提出了方案-01，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-001:utt:01", "eamm-001:ocr:01"]}
+{"question_id": "eamm-001:answer:1", "session_id": "eamm-001", "question": "谁提出了方案-01，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-001:utt:01", "eamm-001:ocr:01"]}
+{"question_id": "eamm-001:answer:2", "session_id": "eamm-001", "question": "谁提出了方案-01，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-001:utt:01", "eamm-001:ocr:01"]}
+{"question_id": "eamm-001:answer:3", "session_id": "eamm-001", "question": "谁提出了方案-01，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-001:utt:01", "eamm-001:ocr:01"]}
+{"question_id": "eamm-001:answer:4", "session_id": "eamm-001", "question": "谁提出了方案-01，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-001:utt:01", "eamm-001:ocr:01"]}
+{"question_id": "eamm-001:answer:5", "session_id": "eamm-001", "question": "谁提出了方案-01，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-001:utt:01", "eamm-001:ocr:01"]}
+{"question_id": "eamm-001:clarify:0", "session_id": "eamm-001", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-001:clarify:1", "session_id": "eamm-001", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-001:abstain:0", "session_id": "eamm-001", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-001:abstain:1", "session_id": "eamm-001", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-002:answer:0", "session_id": "eamm-002", "question": "谁提出了方案-02，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-002:utt:01", "eamm-002:ocr:01"]}
+{"question_id": "eamm-002:answer:1", "session_id": "eamm-002", "question": "谁提出了方案-02，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-002:utt:01", "eamm-002:ocr:01"]}
+{"question_id": "eamm-002:answer:2", "session_id": "eamm-002", "question": "谁提出了方案-02，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-002:utt:01", "eamm-002:ocr:01"]}
+{"question_id": "eamm-002:answer:3", "session_id": "eamm-002", "question": "谁提出了方案-02，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-002:utt:01", "eamm-002:ocr:01"]}
+{"question_id": "eamm-002:answer:4", "session_id": "eamm-002", "question": "谁提出了方案-02，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-002:utt:01", "eamm-002:ocr:01"]}
+{"question_id": "eamm-002:answer:5", "session_id": "eamm-002", "question": "谁提出了方案-02，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-002:utt:01", "eamm-002:ocr:01"]}
+{"question_id": "eamm-002:clarify:0", "session_id": "eamm-002", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-002:clarify:1", "session_id": "eamm-002", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-002:abstain:0", "session_id": "eamm-002", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-002:abstain:1", "session_id": "eamm-002", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-003:answer:0", "session_id": "eamm-003", "question": "谁提出了方案-03，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-003:utt:01", "eamm-003:ocr:01"]}
+{"question_id": "eamm-003:answer:1", "session_id": "eamm-003", "question": "谁提出了方案-03，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-003:utt:01", "eamm-003:ocr:01"]}
+{"question_id": "eamm-003:answer:2", "session_id": "eamm-003", "question": "谁提出了方案-03，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-003:utt:01", "eamm-003:ocr:01"]}
+{"question_id": "eamm-003:answer:3", "session_id": "eamm-003", "question": "谁提出了方案-03，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-003:utt:01", "eamm-003:ocr:01"]}
+{"question_id": "eamm-003:answer:4", "session_id": "eamm-003", "question": "谁提出了方案-03，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-003:utt:01", "eamm-003:ocr:01"]}
+{"question_id": "eamm-003:answer:5", "session_id": "eamm-003", "question": "谁提出了方案-03，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-003:utt:01", "eamm-003:ocr:01"]}
+{"question_id": "eamm-003:clarify:0", "session_id": "eamm-003", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-003:clarify:1", "session_id": "eamm-003", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-003:abstain:0", "session_id": "eamm-003", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-003:abstain:1", "session_id": "eamm-003", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-004:answer:0", "session_id": "eamm-004", "question": "谁提出了方案-04，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-004:utt:01", "eamm-004:ocr:01"]}
+{"question_id": "eamm-004:answer:1", "session_id": "eamm-004", "question": "谁提出了方案-04，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-004:utt:01", "eamm-004:ocr:01"]}
+{"question_id": "eamm-004:answer:2", "session_id": "eamm-004", "question": "谁提出了方案-04，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-004:utt:01", "eamm-004:ocr:01"]}
+{"question_id": "eamm-004:answer:3", "session_id": "eamm-004", "question": "谁提出了方案-04，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-004:utt:01", "eamm-004:ocr:01"]}
+{"question_id": "eamm-004:answer:4", "session_id": "eamm-004", "question": "谁提出了方案-04，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-004:utt:01", "eamm-004:ocr:01"]}
+{"question_id": "eamm-004:answer:5", "session_id": "eamm-004", "question": "谁提出了方案-04，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-004:utt:01", "eamm-004:ocr:01"]}
+{"question_id": "eamm-004:clarify:0", "session_id": "eamm-004", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-004:clarify:1", "session_id": "eamm-004", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-004:abstain:0", "session_id": "eamm-004", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-004:abstain:1", "session_id": "eamm-004", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-005:answer:0", "session_id": "eamm-005", "question": "谁提出了方案-05，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-005:utt:01", "eamm-005:ocr:01"]}
+{"question_id": "eamm-005:answer:1", "session_id": "eamm-005", "question": "谁提出了方案-05，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-005:utt:01", "eamm-005:ocr:01"]}
+{"question_id": "eamm-005:answer:2", "session_id": "eamm-005", "question": "谁提出了方案-05，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-005:utt:01", "eamm-005:ocr:01"]}
+{"question_id": "eamm-005:answer:3", "session_id": "eamm-005", "question": "谁提出了方案-05，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-005:utt:01", "eamm-005:ocr:01"]}
+{"question_id": "eamm-005:answer:4", "session_id": "eamm-005", "question": "谁提出了方案-05，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-005:utt:01", "eamm-005:ocr:01"]}
+{"question_id": "eamm-005:answer:5", "session_id": "eamm-005", "question": "谁提出了方案-05，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-005:utt:01", "eamm-005:ocr:01"]}
+{"question_id": "eamm-005:clarify:0", "session_id": "eamm-005", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-005:clarify:1", "session_id": "eamm-005", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-005:abstain:0", "session_id": "eamm-005", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-005:abstain:1", "session_id": "eamm-005", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-006:answer:0", "session_id": "eamm-006", "question": "谁提出了方案-06，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-006:utt:01", "eamm-006:ocr:01"]}
+{"question_id": "eamm-006:answer:1", "session_id": "eamm-006", "question": "谁提出了方案-06，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-006:utt:01", "eamm-006:ocr:01"]}
+{"question_id": "eamm-006:answer:2", "session_id": "eamm-006", "question": "谁提出了方案-06，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-006:utt:01", "eamm-006:ocr:01"]}
+{"question_id": "eamm-006:answer:3", "session_id": "eamm-006", "question": "谁提出了方案-06，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-006:utt:01", "eamm-006:ocr:01"]}
+{"question_id": "eamm-006:answer:4", "session_id": "eamm-006", "question": "谁提出了方案-06，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-006:utt:01", "eamm-006:ocr:01"]}
+{"question_id": "eamm-006:answer:5", "session_id": "eamm-006", "question": "谁提出了方案-06，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-006:utt:01", "eamm-006:ocr:01"]}
+{"question_id": "eamm-006:clarify:0", "session_id": "eamm-006", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-006:clarify:1", "session_id": "eamm-006", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-006:abstain:0", "session_id": "eamm-006", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-006:abstain:1", "session_id": "eamm-006", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-007:answer:0", "session_id": "eamm-007", "question": "谁提出了方案-07，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-007:utt:01", "eamm-007:ocr:01"]}
+{"question_id": "eamm-007:answer:1", "session_id": "eamm-007", "question": "谁提出了方案-07，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-007:utt:01", "eamm-007:ocr:01"]}
+{"question_id": "eamm-007:answer:2", "session_id": "eamm-007", "question": "谁提出了方案-07，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-007:utt:01", "eamm-007:ocr:01"]}
+{"question_id": "eamm-007:answer:3", "session_id": "eamm-007", "question": "谁提出了方案-07，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-007:utt:01", "eamm-007:ocr:01"]}
+{"question_id": "eamm-007:answer:4", "session_id": "eamm-007", "question": "谁提出了方案-07，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-007:utt:01", "eamm-007:ocr:01"]}
+{"question_id": "eamm-007:answer:5", "session_id": "eamm-007", "question": "谁提出了方案-07，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-007:utt:01", "eamm-007:ocr:01"]}
+{"question_id": "eamm-007:clarify:0", "session_id": "eamm-007", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-007:clarify:1", "session_id": "eamm-007", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-007:abstain:0", "session_id": "eamm-007", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-007:abstain:1", "session_id": "eamm-007", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-008:answer:0", "session_id": "eamm-008", "question": "谁提出了方案-08，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-008:utt:01", "eamm-008:ocr:01"]}
+{"question_id": "eamm-008:answer:1", "session_id": "eamm-008", "question": "谁提出了方案-08，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-008:utt:01", "eamm-008:ocr:01"]}
+{"question_id": "eamm-008:answer:2", "session_id": "eamm-008", "question": "谁提出了方案-08，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-008:utt:01", "eamm-008:ocr:01"]}
+{"question_id": "eamm-008:answer:3", "session_id": "eamm-008", "question": "谁提出了方案-08，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-008:utt:01", "eamm-008:ocr:01"]}
+{"question_id": "eamm-008:answer:4", "session_id": "eamm-008", "question": "谁提出了方案-08，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-008:utt:01", "eamm-008:ocr:01"]}
+{"question_id": "eamm-008:answer:5", "session_id": "eamm-008", "question": "谁提出了方案-08，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-008:utt:01", "eamm-008:ocr:01"]}
+{"question_id": "eamm-008:clarify:0", "session_id": "eamm-008", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-008:clarify:1", "session_id": "eamm-008", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-008:abstain:0", "session_id": "eamm-008", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-008:abstain:1", "session_id": "eamm-008", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-009:answer:0", "session_id": "eamm-009", "question": "谁提出了方案-09，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-009:utt:01", "eamm-009:ocr:01"]}
+{"question_id": "eamm-009:answer:1", "session_id": "eamm-009", "question": "谁提出了方案-09，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-009:utt:01", "eamm-009:ocr:01"]}
+{"question_id": "eamm-009:answer:2", "session_id": "eamm-009", "question": "谁提出了方案-09，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-009:utt:01", "eamm-009:ocr:01"]}
+{"question_id": "eamm-009:answer:3", "session_id": "eamm-009", "question": "谁提出了方案-09，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-009:utt:01", "eamm-009:ocr:01"]}
+{"question_id": "eamm-009:answer:4", "session_id": "eamm-009", "question": "谁提出了方案-09，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-009:utt:01", "eamm-009:ocr:01"]}
+{"question_id": "eamm-009:answer:5", "session_id": "eamm-009", "question": "谁提出了方案-09，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-009:utt:01", "eamm-009:ocr:01"]}
+{"question_id": "eamm-009:clarify:0", "session_id": "eamm-009", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-009:clarify:1", "session_id": "eamm-009", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-009:abstain:0", "session_id": "eamm-009", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-009:abstain:1", "session_id": "eamm-009", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-010:answer:0", "session_id": "eamm-010", "question": "谁提出了方案-10，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-010:utt:01", "eamm-010:ocr:01"]}
+{"question_id": "eamm-010:answer:1", "session_id": "eamm-010", "question": "谁提出了方案-10，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-010:utt:01", "eamm-010:ocr:01"]}
+{"question_id": "eamm-010:answer:2", "session_id": "eamm-010", "question": "谁提出了方案-10，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-010:utt:01", "eamm-010:ocr:01"]}
+{"question_id": "eamm-010:answer:3", "session_id": "eamm-010", "question": "谁提出了方案-10，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-010:utt:01", "eamm-010:ocr:01"]}
+{"question_id": "eamm-010:answer:4", "session_id": "eamm-010", "question": "谁提出了方案-10，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-010:utt:01", "eamm-010:ocr:01"]}
+{"question_id": "eamm-010:answer:5", "session_id": "eamm-010", "question": "谁提出了方案-10，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-010:utt:01", "eamm-010:ocr:01"]}
+{"question_id": "eamm-010:clarify:0", "session_id": "eamm-010", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-010:clarify:1", "session_id": "eamm-010", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-010:abstain:0", "session_id": "eamm-010", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-010:abstain:1", "session_id": "eamm-010", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-011:answer:0", "session_id": "eamm-011", "question": "谁提出了方案-11，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-011:utt:01", "eamm-011:ocr:01"]}
+{"question_id": "eamm-011:answer:1", "session_id": "eamm-011", "question": "谁提出了方案-11，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-011:utt:01", "eamm-011:ocr:01"]}
+{"question_id": "eamm-011:answer:2", "session_id": "eamm-011", "question": "谁提出了方案-11，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-011:utt:01", "eamm-011:ocr:01"]}
+{"question_id": "eamm-011:answer:3", "session_id": "eamm-011", "question": "谁提出了方案-11，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-011:utt:01", "eamm-011:ocr:01"]}
+{"question_id": "eamm-011:answer:4", "session_id": "eamm-011", "question": "谁提出了方案-11，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-011:utt:01", "eamm-011:ocr:01"]}
+{"question_id": "eamm-011:answer:5", "session_id": "eamm-011", "question": "谁提出了方案-11，当时屏幕上是第几页？", "expected_status": "answered", "gold_evidence_ids": ["eamm-011:utt:01", "eamm-011:ocr:01"]}
+{"question_id": "eamm-011:clarify:0", "session_id": "eamm-011", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-011:clarify:1", "session_id": "eamm-011", "question": "他提出的方案怎么样？", "expected_status": "needs_clarification", "gold_evidence_ids": []}
+{"question_id": "eamm-011:abstain:0", "session_id": "eamm-011", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
+{"question_id": "eamm-011:abstain:1", "session_id": "eamm-011", "question": "法务最终批准了哪一份合同？", "expected_status": "abstained", "gold_evidence_ids": []}
