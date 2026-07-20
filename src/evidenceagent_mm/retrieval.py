@@ -9,6 +9,7 @@ from collections import defaultdict
 from typing import Protocol
 
 import numpy as np
+from numpy.typing import NDArray
 
 from evidenceagent_mm.schema import RetrievalHit
 from evidenceagent_mm.store import EvidenceStore
@@ -25,7 +26,7 @@ def tokenize(text: str) -> list[str]:
 
 
 class DenseEncoder(Protocol):
-    def encode(self, texts: list[str]) -> np.ndarray: ...
+    def encode(self, texts: list[str]) -> NDArray[np.float32]: ...
 
 
 class HashingEncoder:
@@ -36,7 +37,7 @@ class HashingEncoder:
             raise ValueError("dimensions must be at least 32")
         self.dimensions = dimensions
 
-    def encode(self, texts: list[str]) -> np.ndarray:
+    def encode(self, texts: list[str]) -> NDArray[np.float32]:
         matrix = np.zeros((len(texts), self.dimensions), dtype=np.float32)
         for row, text in enumerate(texts):
             for token in tokenize(text):
@@ -61,7 +62,7 @@ class SentenceTransformerEncoder:
             raise RuntimeError("install evidenceagent-mm[gpu] for BGE embeddings") from exc
         self.model = SentenceTransformer(model_name, device=device)
 
-    def encode(self, texts: list[str]) -> np.ndarray:
+    def encode(self, texts: list[str]) -> NDArray[np.float32]:
         return np.asarray(
             self.model.encode(texts, normalize_embeddings=True, show_progress_bar=False),
             dtype=np.float32,
@@ -160,6 +161,6 @@ class HybridRetriever:
         return hits
 
 
-def cosine_similarity(left: np.ndarray, right: np.ndarray) -> float:
+def cosine_similarity(left: NDArray[np.float32], right: NDArray[np.float32]) -> float:
     denominator = float(np.linalg.norm(left) * np.linalg.norm(right))
     return float(np.dot(left, right) / denominator) if not math.isclose(denominator, 0.0) else 0.0

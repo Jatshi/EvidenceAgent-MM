@@ -9,7 +9,7 @@ authors = [{ name = "Jianting Shi" }]
 keywords = ["multimodal-rag", "agent", "evidence", "meeting", "diarization"]
 dependencies = [
   "fastapi>=0.115,<1",
-  "numpy>=1.26,<3",
+  "numpy>=1.26,<2.3",
   "pydantic>=2.10,<3",
   "python-multipart>=0.0.18,<1",
   "uvicorn[standard]>=0.34,<1",

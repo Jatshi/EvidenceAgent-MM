@@ -22,3 +22,4 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 - Reproducible RTX 4090 integration reports with exact model revisions and runtime provenance.
 - Stable image- and timestamp-derived OCR evidence IDs with cross-slide collision regression coverage.
 - Polished evidence-console screenshot and redistributable synthetic demo media release asset.
+- NumPy `<2.3` compatibility bound so Mypy can validate the declared Python 3.10 target on newer CI interpreters.
