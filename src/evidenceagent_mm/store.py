@@ -14,6 +14,8 @@ from evidenceagent_mm.schema import EvidenceAtom, EvidenceEdge, Modality
 class EvidenceStore:
     def __init__(self, path: str | Path = ":memory:") -> None:
         self.path = str(path)
+        if self.path != ":memory:":
+            Path(self.path).parent.mkdir(parents=True, exist_ok=True)
         self.connection = sqlite3.connect(self.path, check_same_thread=False)
         self.connection.row_factory = sqlite3.Row
         self._fts_enabled = True

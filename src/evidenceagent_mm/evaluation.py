@@ -7,6 +7,21 @@ from collections.abc import Sequence
 import numpy as np
 
 
+def percentile(values: Sequence[float], value: float) -> float:
+    """Return a linearly interpolated percentile for a non-empty sequence."""
+
+    if not values:
+        raise ValueError("values must be non-empty")
+    if not 0 <= value <= 100:
+        raise ValueError("value must be in [0, 100]")
+    ordered = sorted(values)
+    position = (len(ordered) - 1) * value / 100
+    lower = int(position)
+    upper = min(lower + 1, len(ordered) - 1)
+    weight = position - lower
+    return ordered[lower] * (1 - weight) + ordered[upper] * weight
+
+
 def word_error_rate(reference: str, hypothesis: str) -> float:
     """Compute case/punctuation-insensitive Levenshtein WER without external packages."""
 

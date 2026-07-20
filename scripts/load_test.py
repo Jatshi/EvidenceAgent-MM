@@ -11,14 +11,7 @@ from pathlib import Path
 
 import httpx
 
-
-def percentile(values: list[float], value: float) -> float:
-    ordered = sorted(values)
-    position = (len(ordered) - 1) * value / 100
-    lower = int(position)
-    upper = min(lower + 1, len(ordered) - 1)
-    weight = position - lower
-    return ordered[lower] * (1 - weight) + ordered[upper] * weight
+from evidenceagent_mm.evaluation import percentile
 
 
 def request_once(url: str, payload: dict[str, object]) -> tuple[int, float]:

@@ -39,8 +39,8 @@ dev = [
 eamm = "evidenceagent_mm.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/jianting-shi/EvidenceAgent-MM"
-Issues = "https://github.com/jianting-shi/EvidenceAgent-MM/issues"
+Homepage = "https://github.com/Jatshi/EvidenceAgent-MM"
+Issues = "https://github.com/Jatshi/EvidenceAgent-MM/issues"
 
 [build-system]
 requires = ["hatchling>=1.27"]
@@ -78,3 +78,13 @@ ignore = ["E501"]
 python_version = "3.10"
 strict = true
 plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = [
+  "faster_whisper",
+  "paddleocr",
+  "sentence_transformers",
+  "torch",
+  "transformers",
+]
+ignore_missing_imports = true

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -21,7 +22,7 @@ def create_app(db_path: str | Path = "data/processed/evidence.db") -> FastAPI:
     agent = EvidenceAgent(retriever)
 
     @asynccontextmanager
-    async def lifespan(_: FastAPI):
+    async def lifespan(_: FastAPI) -> AsyncIterator[None]:
         yield
         store.close()
 

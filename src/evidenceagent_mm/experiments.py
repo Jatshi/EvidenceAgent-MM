@@ -6,7 +6,7 @@ import json
 import statistics
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, TypedDict
 
 from evidenceagent_mm.agent import EvidenceAgent, GateConfig
 from evidenceagent_mm.evaluation import retrieval_metrics
@@ -14,6 +14,11 @@ from evidenceagent_mm.pipeline import ingest_fixture
 from evidenceagent_mm.retrieval import HashingEncoder, HybridRetriever
 from evidenceagent_mm.schema import FixtureDocument, ResponseStatus
 from evidenceagent_mm.store import EvidenceStore
+
+
+class AblationConfig(TypedDict):
+    top_k: int
+    gate: GateConfig
 
 
 def run_ablation_suite(dataset_dir: str | Path, work_dir: str | Path) -> dict[str, Any]:
@@ -24,7 +29,7 @@ def run_ablation_suite(dataset_dir: str | Path, work_dir: str | Path) -> dict[st
         json.loads(line)
         for line in (dataset / "questions.jsonl").read_text(encoding="utf-8").splitlines()
     ]
-    configs = {
+    configs: dict[str, AblationConfig] = {
         "full": {"top_k": 5, "gate": GateConfig(graph_hops=1)},
         "no_graph": {"top_k": 5, "gate": GateConfig(graph_hops=0)},
         "top1": {"top_k": 1, "gate": GateConfig(graph_hops=0)},

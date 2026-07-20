@@ -11,6 +11,13 @@ def test_store_round_trip_and_parameterized_lookup(store: EvidenceStore) -> None
     assert store.get_atom("x' OR 1=1 --") is None
 
 
+def test_store_creates_missing_parent_directory(tmp_path) -> None:
+    path = tmp_path / "nested" / "data" / "evidence.db"
+    with EvidenceStore(path):
+        pass
+    assert path.is_file()
+
+
 def test_hybrid_retrieval_returns_proposal_and_slide(store: EvidenceStore) -> None:
     retriever = HybridRetriever(store, HashingEncoder(64))
     hits = retriever.search("demo-session", "who proposed design B and which slide", top_k=3)
