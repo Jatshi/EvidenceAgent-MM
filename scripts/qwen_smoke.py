@@ -52,7 +52,7 @@ def main() -> int:
     loaded = time.perf_counter()
     answer = generator.generate("Who proposed design B, on which page, and why?", atoms)
     finished = time.perf_counter()
-    normalized = re.sub(r"\W", "", answer.lower())
+    normalized = re.sub(r"[\W_]", "", answer.lower())
     result = {
         "model": args.model,
         "model_revision": huggingface_cache_revision(args.model),

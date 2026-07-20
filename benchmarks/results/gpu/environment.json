@@ -14,11 +14,13 @@
   "sentence_transformers": "5.6.0",
   "model_revisions": {
     "Systran/faster-whisper-small": "536b0662742c02347bc0e980a01041f333bce120",
-    "BAAI/bge-m3": "5617a9f61b028005a4858fdac845db406aefb181"
+    "BAAI/bge-m3": "5617a9f61b028005a4858fdac845db406aefb181",
+    "Qwen/Qwen3-8B": "b968826d9c46dd6066d109eabc6255188de91218"
   },
   "notes": [
     "PyTorch CUDA 13.0 default wheel failed the driver compatibility gate.",
     "The verified environment pins the official CUDA 12.8 wheel.",
-    "Hugging Face downloads used an HTTPS mirror because the direct endpoint timed out from AutoDL."
+    "Hugging Face downloads used an HTTPS mirror because the direct endpoint timed out from AutoDL.",
+    "PaddleOCR runs in a separate virtual environment; see ocr_environment.json."
   ]
 }

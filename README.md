@@ -1,8 +1,12 @@
 # EvidenceAgent-MM
 
+[![CI](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml/badge.svg)](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml)
+
 Evidence-grounded multimodal assistance for noisy meetings and classrooms.
 
 > Ask *who proposed what, when, and which slide was visible*. The system answers with claim-level citations, timestamps, speaker/page provenance, confidence, and a tool trace. If the evidence is ambiguous or insufficient, it asks a targeted question or abstains.
+
+![EvidenceAgent-MM local evidence console](assets/evidenceagent-demo.png)
 
 [中文说明](README.zh-CN.md) · [Architecture](docs/ARCHITECTURE.md) · [Dataset card](docs/DATASET_CARD.md) · [Model card](docs/MODEL_CARD.md) · [Security](SECURITY.md)
 
@@ -90,12 +94,17 @@ Verified RTX 4090 smoke results:
 
 | Component | Result | Cached runtime | Artifact |
 |---|---|---:|---|
-| faster-whisper small | 2 segments, WER 0.125 | 4.42 s for 12.4 s media | `benchmarks/results/gpu/asr_small_4090.json` |
-| BGE-M3 | cross-lingual target ranked 1st, score 0.625 | 25.17 s load + encode | `benchmarks/results/gpu/bge_m3_4090.json` |
+| faster-whisper small | 2 segments, WER 0.125 | 1.59 s for 12.4 s media | `benchmarks/results/gpu/asr_small_4090.json` |
+| BGE-M3 | cross-lingual target ranked 1st, score 0.625 | 7.71 s load + encode | `benchmarks/results/gpu/bge_m3_4090.json` |
+| Qwen3-8B | both evidence IDs and all required facts preserved | 9.62 s load + 2.58 s generation; 15,665 MiB peak | `benchmarks/results/gpu/qwen3_8b_4090.json` |
+| PaddleOCR 3.7 | 6 atoms from 2 slides; 6 unique stable IDs | 2.46 s | `benchmarks/results/gpu/ocr_4090.json` |
+| Energy turn detector | 2/2 turns; mean temporal IoU 0.914 | CPU fallback | `benchmarks/results/gpu/diarization_fallback_smoke.json` |
 
-The synthetic voice is intentionally difficult and WER includes number-format differences. These are integration measurements, not corpus-level model claims.
+These are warm-cache integration measurements on one 12.4-second synthetic clip, not corpus-level model claims. ASR confuses `review` with `renew` and includes a number-format difference. The mobile OCR models miss `42 ms` and read `latency` as `Iatency` on the first slide. The license-free diarization fallback detects speech turns only: its sequential labels are not reusable speaker identities. Community-1 remains an optional gated path.
 
 Local API load smoke (`200` requests, concurrency `16`) completed with zero failures, about `144.7 req/s`, and `235.8 ms` P95. This measurement uses the deterministic CPU retriever and excludes GPU model calls; see `benchmarks/results/api_load_local.json`.
+
+The same deterministic API path on AutoDL completed `200` requests at concurrency `16` with zero failures, `234.5 req/s`, and `137.0 ms` P95; see `benchmarks/results/api_load_autodl.json`. Machine-specific throughput is not a model-performance claim.
 
 ## API
 
@@ -131,7 +140,7 @@ python -m build
 
 `uv.lock` pins the universal dependency graph. The AutoDL CUDA environment must still be created with `scripts/install_gpu_env.sh` so PyTorch comes from the official cu128 index.
 
-The current core suite contains 20 tests and enforces 80% branch-aware coverage. Optional model adapters are verified by explicit integration scripts on the target GPU.
+The current core suite contains 29 tests and enforces 80% branch-aware coverage. Optional model adapters are verified by explicit integration scripts on the target GPU.
 
 ## Scope and safety
 

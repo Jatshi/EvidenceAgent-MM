@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import wave
 from pathlib import Path
 from typing import Any
@@ -9,6 +10,27 @@ from typing import Any
 import numpy as np
 
 from evidenceagent_mm.schema import EvidenceAtom, Modality
+
+
+def ocr_evidence_id(
+    session_id: str,
+    image_path: str | Path,
+    timestamp_ms: int,
+    page_index: int,
+    line_index: int,
+    *,
+    image_fingerprint: str | None = None,
+) -> str:
+    """Build an idempotent OCR ID that stays unique across separately processed images."""
+
+    if image_fingerprint is None:
+        image_fingerprint = hashlib.blake2s(
+            Path(image_path).read_bytes(), digest_size=4
+        ).hexdigest()
+    return (
+        f"{session_id}:ocr:{timestamp_ms:010d}:{image_fingerprint}:"
+        f"{page_index:03d}:{line_index:03d}"
+    )
 
 
 class FasterWhisperASR:
@@ -42,7 +64,13 @@ class FasterWhisperASR:
 
 
 class PaddleOCRAdapter:
-    def __init__(self, lang: str = "ch", device: str | None = None) -> None:
+    def __init__(
+        self,
+        lang: str = "ch",
+        device: str | None = None,
+        detection_model: str | None = None,
+        recognition_model: str | None = None,
+    ) -> None:
         try:
             from paddleocr import PaddleOCR
         except ImportError as exc:  # pragma: no cover - optional dependency
@@ -55,6 +83,10 @@ class PaddleOCRAdapter:
         }
         if device is not None:
             options["device"] = device
+        if detection_model is not None:
+            options["text_detection_model_name"] = detection_model
+        if recognition_model is not None:
+            options["text_recognition_model_name"] = recognition_model
         self.model: Any = PaddleOCR(**options)
 
     def extract(
@@ -62,6 +94,9 @@ class PaddleOCRAdapter:
     ) -> list[EvidenceAtom]:
         result = self.model.predict(str(image_path))
         atoms: list[EvidenceAtom] = []
+        image_fingerprint = hashlib.blake2s(
+            Path(image_path).read_bytes(), digest_size=4
+        ).hexdigest()
         for index, page in enumerate(result):
             data = page.json.get("res", page.json)
             texts = data.get("rec_texts", [])
@@ -69,7 +104,14 @@ class PaddleOCRAdapter:
             for line_index, (text, score) in enumerate(zip(texts, scores, strict=False)):
                 atoms.append(
                     EvidenceAtom(
-                        evidence_id=f"{session_id}:ocr:{index:03d}:{line_index:03d}",
+                        evidence_id=ocr_evidence_id(
+                            session_id,
+                            image_path,
+                            timestamp_ms,
+                            index,
+                            line_index,
+                            image_fingerprint=image_fingerprint,
+                        ),
                         session_id=session_id,
                         modality=Modality.OCR,
                         start_ms=timestamp_ms,

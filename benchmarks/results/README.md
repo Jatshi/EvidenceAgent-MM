@@ -18,6 +18,7 @@ inference unless an artifact explicitly says otherwise.
 The `gpu/` directory contains real-model integration reports from one AutoDL RTX 4090:
 
 - `environment.json`: driver, CUDA, package versions, and exact cached model commits;
+- `ocr_environment.json`: Paddle/PaddleOCR/PaddleX versions, CUDA runtime packages, and model-file hashes;
 - `asr_small_4090.json`: faster-whisper transcript, timestamps, WER, and runtime;
 - `bge_m3_4090.json`: multilingual retrieval scores and runtime;
 - `qwen3_8b_4090.json`: evidence-constrained answer, citation/fact gates, runtime, and peak VRAM;

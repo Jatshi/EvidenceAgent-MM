@@ -1,0 +1,116 @@
+{
+  "backend": "PaddleOCR",
+  "elapsed_seconds": 2.4607783295214176,
+  "paddle_version": "3.3.0",
+  "paddleocr_version": "3.7.0",
+  "paddle_device": "gpu:0",
+  "device_requested": "gpu",
+  "cuda_compiled": true,
+  "pipeline_options": {
+    "lang": "en",
+    "use_doc_orientation_classify": false,
+    "use_doc_unwarping": false,
+    "use_textline_orientation": false,
+    "text_detection_model_name": "PP-OCRv5_mobile_det",
+    "text_recognition_model_name": "PP-OCRv5_mobile_rec"
+  },
+  "gpu": "NVIDIA GeForce RTX 4090, 570.124.04, 24564 MiB",
+  "atoms": [
+    {
+      "evidence_id": "synthetic-ocr-smoke:ocr:0000000000:0a8106c9:000:000",
+      "session_id": "synthetic-ocr-smoke",
+      "modality": "ocr",
+      "start_ms": 0,
+      "end_ms": 1,
+      "text": "DESIGN REVIEW",
+      "source_uri": "image://slide-1.png",
+      "speaker_id": null,
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.9877169728279114,
+      "attributes": {
+        "backend": "paddleocr"
+      }
+    },
+    {
+      "evidence_id": "synthetic-ocr-smoke:ocr:0000000000:0a8106c9:000:001",
+      "session_id": "synthetic-ocr-smoke",
+      "modality": "ocr",
+      "start_ms": 0,
+      "end_ms": 1,
+      "text": "Design B / P95 Iatency",
+      "source_uri": "image://slide-1.png",
+      "speaker_id": null,
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.9632207751274109,
+      "attributes": {
+        "backend": "paddleocr"
+      }
+    },
+    {
+      "evidence_id": "synthetic-ocr-smoke:ocr:0000000000:0a8106c9:000:002",
+      "session_id": "synthetic-ocr-smoke",
+      "modality": "ocr",
+      "start_ms": 0,
+      "end_ms": 1,
+      "text": "PAGE 1",
+      "source_uri": "image://slide-1.png",
+      "speaker_id": null,
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.9118358492851257,
+      "attributes": {
+        "backend": "paddleocr"
+      }
+    },
+    {
+      "evidence_id": "synthetic-ocr-smoke:ocr:0000007000:088a86ca:000:000",
+      "session_id": "synthetic-ocr-smoke",
+      "modality": "ocr",
+      "start_ms": 7000,
+      "end_ms": 7001,
+      "text": "NEXT STEPS",
+      "source_uri": "image://slide-2.png",
+      "speaker_id": null,
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.9908977746963501,
+      "attributes": {
+        "backend": "paddleocr"
+      }
+    },
+    {
+      "evidence_id": "synthetic-ocr-smoke:ocr:0000007000:088a86ca:000:001",
+      "session_id": "synthetic-ocr-smoke",
+      "modality": "ocr",
+      "start_ms": 7000,
+      "end_ms": 7001,
+      "text": "Budget and delivery risk / next week",
+      "source_uri": "image://slide-2.png",
+      "speaker_id": null,
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.9870511293411255,
+      "attributes": {
+        "backend": "paddleocr"
+      }
+    },
+    {
+      "evidence_id": "synthetic-ocr-smoke:ocr:0000007000:088a86ca:000:002",
+      "session_id": "synthetic-ocr-smoke",
+      "modality": "ocr",
+      "start_ms": 7000,
+      "end_ms": 7001,
+      "text": "PAGE 2",
+      "source_uri": "image://slide-2.png",
+      "speaker_id": null,
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.9115292429924011,
+      "attributes": {
+        "backend": "paddleocr"
+      }
+    }
+  ]
+}

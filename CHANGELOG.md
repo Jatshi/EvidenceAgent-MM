@@ -19,3 +19,6 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 - Calibration, retrieval, citation, and selective answering metrics.
 - Optional faster-whisper, BGE-M3, PaddleOCR, pyannote, and Qwen3 adapters.
 - Unit/API benchmark suite, coverage gate, Ruff, pre-commit, and GitHub Actions.
+- Reproducible RTX 4090 integration reports with exact model revisions and runtime provenance.
+- Stable image- and timestamp-derived OCR evidence IDs with cross-slide collision regression coverage.
+- Polished evidence-console screenshot and redistributable synthetic demo media release asset.

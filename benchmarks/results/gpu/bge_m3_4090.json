@@ -1,11 +1,17 @@
 {
   "model": "BAAI/bge-m3",
+  "model_revision": "5617a9f61b028005a4858fdac845db406aefb181",
   "scores": [
     0.6246436238288879,
     0.4241696000099182,
     0.3491603136062622
   ],
   "top_index": 0,
-  "elapsed_seconds": 25.174578189849854,
+  "model_load_seconds": 7.278759017586708,
+  "encode_seconds": 0.43125026673078537,
+  "elapsed_seconds": 7.710009284317493,
+  "peak_vram_mib": 2177.51513671875,
+  "torch_version": "2.10.0+cu128",
+  "torch_cuda_version": "12.8",
   "gpu": "NVIDIA GeForce RTX 4090, 570.124.04, 24564 MiB"
 }

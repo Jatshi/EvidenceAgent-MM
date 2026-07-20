@@ -17,12 +17,12 @@ Release acceptance requires: core tests and coverage gate pass; Bronze benchmark
 - [x] Full/no-graph/top-1/no-visual-gate ablation suite with explicit negative findings.
 - [x] Base unit/API tests, Ruff, coverage, CI, packaging, and security documentation.
 - [x] Local API concurrency smoke with failure rate, throughput, mean, P50, P95, and max.
-- [ ] AutoDL synthetic media generated and archived with SHA-256.
-- [ ] faster-whisper ASR measured on RTX 4090.
-- [ ] BGE-M3 retrieval measured on RTX 4090.
-- [ ] Qwen3-8B constrained generation measured on RTX 4090.
-- [ ] OCR adapter measured on the generated slides.
-- [ ] Diarization path measured with Community-1 or documented Plan B.
+- [x] AutoDL synthetic media generated and archived with SHA-256.
+- [x] faster-whisper ASR measured on RTX 4090.
+- [x] BGE-M3 retrieval measured on RTX 4090.
+- [x] Qwen3-8B constrained generation measured on RTX 4090.
+- [x] OCR adapter measured on the generated slides.
+- [x] Diarization path measured with Community-1 or documented Plan B.
 - [ ] Release artifacts, exact dependency freeze, GitHub repository, and v0.1.0 release published.
 
 ## Decision log
