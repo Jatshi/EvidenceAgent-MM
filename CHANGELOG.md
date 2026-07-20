@@ -5,6 +5,9 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 ## [Unreleased]
 
 - Real-meeting benchmark expansion and validation-set calibration.
+- Published the EvidenceAgent-MM system model card, configuration, raw results, and provenance on Hugging Face.
+- Added a SHA-256 AutoDL archive verifier and documented the 174-file verified local export.
+- Added a comprehensive Chinese from-scratch tutorial with formulas, runnable core code, source walkthrough, rebuild labs, and 25 interview questions.
 
 ## [0.1.0] - 2026-07-20
 

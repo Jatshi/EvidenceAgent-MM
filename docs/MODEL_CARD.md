@@ -4,6 +4,8 @@
 
 EvidenceAgent-MM retrieves typed evidence, expands a bounded graph, verifies modality and support requirements, and returns one of three states. The default renderer is deterministic. Qwen3 generation is optional and runs only after evidence selection and gating.
 
+The public system-level Hugging Face card, machine-readable configuration, raw reports, and dependency provenance are available at <https://huggingface.co/jatshi/EvidenceAgent-MM>. This v0.1 release did not train a new neural checkpoint and does not relabel upstream weights.
+
 ## Model inventory
 
 | Component | Default/reference | Role | License source |

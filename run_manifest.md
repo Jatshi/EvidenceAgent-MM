@@ -35,3 +35,15 @@ Each report must contain GPU name, driver, model name/revision, runtime, output,
 - CI compatibility implementation commit: `c458f08dd19e05f431f5f0fe700f6e6ca22bd7b2`
 - Assets: wheel, source distribution, CC0 demo media, benchmark/results bundle, and `SHA256SUMS`.
 - CI: Python 3.10 and 3.12 matrix passed Ruff, formatting, Mypy, 29 tests with coverage gate, and package build.
+
+## Post-release preservation and learning artifacts
+
+- Hugging Face system repository: `https://huggingface.co/jatshi/EvidenceAgent-MM`
+- Initial Hub artifact commit: `7dff87ec222d667677afcf9608c3ff4ad95e84c2`
+- Current Hub artifact commit after linking the learning manual: `769f0e7bb6b213ca0b34ab4a833c22a4669afabb`
+- Formatting-normalized Hub provenance commit: `22555d0661957060dc277631c8757bc1f5528946`
+- The Hub repository contains no relabeled third-party checkpoint and explicitly declares `trained_weights: false`.
+- AutoDL archive verification: 174 files and 19,201,588,460 bytes matched the remote SHA-256 manifest.
+- Remote archive manifest SHA-256: `44b1ea1d98bddb135d6e8d65ba589894af13b07b38bc5af8e1db396d68eed5db`.
+- Linux virtual environments were excluded as non-portable; exact core/GPU/OCR freezes are retained.
+- The complete tutorial source and rendered HTML live under `docs/tutorials/`.

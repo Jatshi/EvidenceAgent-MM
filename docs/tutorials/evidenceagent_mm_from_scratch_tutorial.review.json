@@ -1,0 +1,29 @@
+{
+  "skill": "interview-cheatsheet",
+  "source": "docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md",
+  "source_sha256": "db7dbb41abd70bbdd8d57d9f43d8ed3b805ba62dfd381792ebae92bfe756be6c",
+  "output": "docs/tutorials/evidenceagent_mm_from_scratch_tutorial.html",
+  "topic": "EvidenceAgent-MM verifiable multimodal agent from scratch",
+  "effort": "max-plus project-wide manual",
+  "rendered_at": "2026-07-20",
+  "math_code_review": {
+    "verdict": "WARN",
+    "reviewer": "local deterministic self-audit",
+    "note": "The separate cross-model reviewer required by the skill was not available in this tool session; no cross-model PASS is claimed.",
+    "checks": {
+      "from_scratch_code": "pass: the first two Python blocks executed and produced answered with both expected evidence IDs",
+      "formula_delimiters": "pass: 94 display-math delimiters form 47 pairs",
+      "interview_structure": "pass: 25 questions and 25 matched details blocks",
+      "sensitive_information": "pass: no server address, password, access token, or private local archive path in tracked files",
+      "project_tests": "pass: 29 tests, 88.08% branch-aware coverage",
+      "static_checks": "pass: Ruff, Ruff format, and Mypy"
+    }
+  },
+  "render_review": {
+    "verdict": "PASS",
+    "renderer": "render-html academic template",
+    "html_bytes": 114793,
+    "toc_entries": 127,
+    "source_hash_verified": true
+  }
+}
