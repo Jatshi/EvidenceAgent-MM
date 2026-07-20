@@ -1,0 +1,61 @@
+{
+  "format_version": "1.0",
+  "system_name": "EvidenceAgent-MM",
+  "system_version": "0.1.0",
+  "source_repository": "https://github.com/Jatshi/EvidenceAgent-MM",
+  "release": "https://github.com/Jatshi/EvidenceAgent-MM/releases/tag/v0.1.0",
+  "trained_weights": false,
+  "components": {
+    "generation": {
+      "model_id": "Qwen/Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "max_new_tokens": 180,
+      "do_sample": false,
+      "thinking": false
+    },
+    "dense_retrieval": {
+      "model_id": "BAAI/bge-m3",
+      "revision": "5617a9f61b028005a4858fdac845db406aefb181",
+      "normalize_embeddings": true
+    },
+    "asr": {
+      "model_id": "Systran/faster-whisper-small",
+      "revision": "536b0662742c02347bc0e980a01041f333bce120",
+      "device": "cuda",
+      "compute_type": "float16"
+    },
+    "ocr": {
+      "framework": "PaddleOCR",
+      "framework_version": "3.7.0",
+      "paddle_version": "3.3.0",
+      "detection_model": "PP-OCRv5_mobile_det",
+      "recognition_model": "PP-OCRv5_mobile_rec"
+    }
+  },
+  "retrieval": {
+    "default_top_k": 8,
+    "graph_hops": 1,
+    "rrf_k": 60,
+    "graph_weight": 0.08
+  },
+  "evidence_gate": {
+    "min_retrieval_score": 0.35,
+    "min_claim_support": 0.55,
+    "ambiguity_margin": 0.05,
+    "required_modality_min_score": 0.25,
+    "require_cross_modal_for_visual_questions": true
+  },
+  "confidence_formula": {
+    "answerability_weight": 0.25,
+    "retrieval_weight": 0.25,
+    "alignment_weight": 0.2,
+    "claim_support_weight": 0.3,
+    "calibrated": false
+  },
+  "verified_hardware": {
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_mib": 24564,
+    "driver": "570.124.04",
+    "torch": "2.10.0+cu128"
+  }
+}

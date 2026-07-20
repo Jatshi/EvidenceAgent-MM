@@ -1,5 +1,7 @@
 # EvidenceAgent-MM：可验证多模态会议助手
 
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM)
+
 用户可以问“谁在什么时候提出了什么方案、屏幕上是哪一页、依据是什么”。系统不会只生成一段摘要，而是返回逐主张引用、音视频时间戳、匿名说话人、屏幕页码、置信度和工具调用轨迹。
 
 ![EvidenceAgent-MM 本地证据控制台](assets/evidenceagent-demo.png)
@@ -46,5 +48,15 @@ eamm --db /tmp/eamm.db serve
 ## 质量门
 
 当前核心测试共 29 项，覆盖率门槛为 80%；Ruff、格式检查、Mypy、构建和干净 wheel 安装均纳入发布检查。GPU 适配器通过独立脚本和带 revision 的 JSON 报告验证。
+
+## Hugging Face、远程归档与学习手册
+
+- Hugging Face 系统模型仓库：<https://huggingface.co/jatshi/EvidenceAgent-MM>
+- 从零手搓学习手册：[`docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md`](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md)
+- AutoDL 归档说明：[`docs/AUTODL_ARCHIVE.md`](docs/AUTODL_ARCHIVE.md)
+
+Hugging Face 仓库发布了机器可读的证据门配置、精确上游 revision、CPU/GPU 原始结果、依赖 freeze 和本地归档 SHA-256 清单。v0.1.0 没有训练新的神经网络权重，因此没有把 Qwen、BGE、Whisper 或 Paddle 官方 checkpoint 改名冒充自研模型。
+
+AutoDL 本地归档已按远程清单验证：174 个文件、19,201,588,460 字节全部 SHA-256 匹配。归档包含实际使用的模型快照、远程源码、全部实验结果、合成媒体和环境信息；不可跨平台复用的 Linux 虚拟环境本体不复制，但完整依赖 freeze 与安装脚本已经保留。
 
 架构、数据、模型和安全细节分别见 `docs/ARCHITECTURE.md`、`docs/DATASET_CARD.md`、`docs/MODEL_CARD.md` 和 `SECURITY.md`。

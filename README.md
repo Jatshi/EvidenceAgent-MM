@@ -1,6 +1,7 @@
 # EvidenceAgent-MM
 
 [![CI](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml/badge.svg)](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM)
 
 Evidence-grounded multimodal assistance for noisy meetings and classrooms.
 
@@ -8,7 +9,7 @@ Evidence-grounded multimodal assistance for noisy meetings and classrooms.
 
 ![EvidenceAgent-MM local evidence console](assets/evidenceagent-demo.png)
 
-[中文说明](README.zh-CN.md) · [Architecture](docs/ARCHITECTURE.md) · [Dataset card](docs/DATASET_CARD.md) · [Model card](docs/MODEL_CARD.md) · [Security](SECURITY.md)
+[中文说明](README.zh-CN.md) · [From-scratch tutorial](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [Hugging Face](https://huggingface.co/jatshi/EvidenceAgent-MM) · [Architecture](docs/ARCHITECTURE.md) · [Dataset card](docs/DATASET_CARD.md) · [Model card](docs/MODEL_CARD.md) · [Security](SECURITY.md)
 
 ## Why this is not another summary demo
 
@@ -106,6 +107,18 @@ Local API load smoke (`200` requests, concurrency `16`) completed with zero fail
 
 The same deterministic API path on AutoDL completed `200` requests at concurrency `16` with zero failures, `234.5 req/s`, and `137.0 ms` P95; see `benchmarks/results/api_load_autodl.json`. Machine-specific throughput is not a model-performance claim.
 
+## Reproducibility artifacts
+
+The public [Hugging Face system model repository](https://huggingface.co/jatshi/EvidenceAgent-MM) contains the machine-readable gate configuration, exact upstream revisions, raw CPU/GPU reports, dependency freezes, and the SHA-256 manifest for the verified AutoDL archive. EvidenceAgent-MM v0.1.0 does not claim newly trained neural weights, so official Qwen, BGE, Whisper, and Paddle checkpoints remain attributed to their upstream repositories rather than being renamed and redistributed as project weights.
+
+The local AutoDL archive was verified against the remote manifest: `174` files and `19,201,588,460` bytes matched SHA-256. It includes the exact model snapshots, source snapshot, all result JSON, synthetic media, and environment inventories. Virtual environments are intentionally excluded because Linux venvs are not portable to Windows; exact freezes and installation scripts are retained. See [the archive guide](docs/AUTODL_ARCHIVE.md) and verify any copy with:
+
+```bash
+python scripts/verify_autodl_archive.py /path/to/autodl-2026-07-20
+```
+
+For a line-by-line understanding of the system, formulas, failure modes, from-scratch implementation, seven-day rebuild plan, and 25 interview questions, read the [complete Chinese learning manual](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md).
+
 ## API
 
 | Method | Route | Purpose |
@@ -124,7 +137,8 @@ src/evidenceagent_mm/   schemas, graph, retrieval, agent, API, optional adapters
 scripts/                media generation and real-model smoke tests
 benchmarks/             redistributable Bronze metadata and verified reports
 tests/                  unit, API, security-boundary, and benchmark tests
-docs/                   architecture, dataset/model cards, design system
+docs/                   architecture, cards, archive guide, and full tutorial
+hub/model/              source-of-truth content published to Hugging Face
 data/                   raw/interim/processed/external local layers (ignored)
 results/                recomputable local runs (ignored)
 ```
