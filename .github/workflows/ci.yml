@@ -22,5 +22,6 @@ jobs:
       - run: python -m pip install -e '.[dev]'
       - run: ruff check .
       - run: ruff format --check .
+      - run: mypy src
       - run: pytest --cov=evidenceagent_mm --cov-report=term-missing --cov-report=xml
       - run: python -m build

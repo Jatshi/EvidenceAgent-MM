@@ -42,12 +42,20 @@ class FasterWhisperASR:
 
 
 class PaddleOCRAdapter:
-    def __init__(self, lang: str = "ch") -> None:
+    def __init__(self, lang: str = "ch", device: str | None = None) -> None:
         try:
             from paddleocr import PaddleOCR
         except ImportError as exc:  # pragma: no cover - optional dependency
             raise RuntimeError("install evidenceagent-mm[ocr] and PaddlePaddle for OCR") from exc
-        self.model: Any = PaddleOCR(lang=lang, use_doc_orientation_classify=False)
+        options: dict[str, object] = {
+            "lang": lang,
+            "use_doc_orientation_classify": False,
+            "use_doc_unwarping": False,
+            "use_textline_orientation": False,
+        }
+        if device is not None:
+            options["device"] = device
+        self.model: Any = PaddleOCR(**options)
 
     def extract(
         self, image_path: str | Path, session_id: str, timestamp_ms: int
