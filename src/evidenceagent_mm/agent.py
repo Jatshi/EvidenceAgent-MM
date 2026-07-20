@@ -27,6 +27,7 @@ class GateConfig:
     min_claim_support: float = 0.55
     ambiguity_margin: float = 0.05
     require_cross_modal_for_visual_questions: bool = True
+    graph_hops: int = 1
 
 
 class AnswerGenerator(Protocol):
@@ -49,7 +50,9 @@ class EvidenceAgent:
     def answer(self, session_id: str, question: str, *, top_k: int = 8) -> AgentResponse:
         trace_id = uuid.uuid4().hex
         started = time.perf_counter()
-        hits = self.retriever.search(session_id, question, top_k=top_k, graph_hops=1)
+        hits = self.retriever.search(
+            session_id, question, top_k=top_k, graph_hops=self.config.graph_hops
+        )
         retrieve_ms = (time.perf_counter() - started) * 1_000
         trace = [
             ToolTrace(

@@ -9,6 +9,8 @@
 - Output: `benchmarks/results/cpu_bronze.json`
 - Status: verified
 - Scope: software contract and evidence accounting only
+- Ablations: top-1 drops recall to 0.5 and status accuracy to 0.2; graph/visual-gate deltas are zero on this small clean fixture and are not claimed as improvements.
+- Local API load: 200 requests at concurrency 16, 0 failures, 144.7 req/s, P95 235.8 ms; deterministic CPU path only.
 
 ## AutoDL GPU integration
 

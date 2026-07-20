@@ -1,0 +1,45 @@
+{
+  "dataset": "benchmarks/eamm_bronze",
+  "configs": {
+    "full": {
+      "top_k": 5,
+      "graph_hops": 1,
+      "require_cross_modal_for_visual_questions": true,
+      "questions": 120,
+      "status_accuracy": 1,
+      "evidence_recall_at_5": 1.0,
+      "negative_false_answer_rate": 0.0,
+      "elapsed_seconds": 0.20914130005985498
+    },
+    "no_graph": {
+      "top_k": 5,
+      "graph_hops": 0,
+      "require_cross_modal_for_visual_questions": true,
+      "questions": 120,
+      "status_accuracy": 1,
+      "evidence_recall_at_5": 1.0,
+      "negative_false_answer_rate": 0.0,
+      "elapsed_seconds": 0.20510679995641112
+    },
+    "top1": {
+      "top_k": 1,
+      "graph_hops": 0,
+      "require_cross_modal_for_visual_questions": true,
+      "questions": 120,
+      "status_accuracy": 0.2,
+      "evidence_recall_at_5": 0.5,
+      "negative_false_answer_rate": 0.0,
+      "elapsed_seconds": 0.20318469998892397
+    },
+    "no_visual_gate": {
+      "top_k": 5,
+      "graph_hops": 1,
+      "require_cross_modal_for_visual_questions": false,
+      "questions": 120,
+      "status_accuracy": 1,
+      "evidence_recall_at_5": 1.0,
+      "negative_false_answer_rate": 0.0,
+      "elapsed_seconds": 0.5803024000488222
+    }
+  }
+}

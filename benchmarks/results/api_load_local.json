@@ -1,0 +1,13 @@
+{
+  "url": "http://127.0.0.1:8765/v1/query",
+  "requests": 200,
+  "concurrency": 16,
+  "failures": 0,
+  "failure_rate": 0.0,
+  "throughput_rps": 144.69815819348142,
+  "latency_ms_mean": 104.40606149786618,
+  "latency_ms_p50": 91.27590002026409,
+  "latency_ms_p95": 235.8173850516324,
+  "latency_ms_max": 278.93050003331155,
+  "wall_seconds": 1.3821876000147313
+}

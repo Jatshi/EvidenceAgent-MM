@@ -14,7 +14,9 @@ Release acceptance requires: core tests and coverage gate pass; Bronze benchmark
 - [x] Three-state deterministic tool agent and evidence sufficiency gate.
 - [x] FastAPI routes and evidence-report web demo.
 - [x] EAMM-Bench Bronze generator, 120-question run, calibration metrics, and predictions.
+- [x] Full/no-graph/top-1/no-visual-gate ablation suite with explicit negative findings.
 - [x] Base unit/API tests, Ruff, coverage, CI, packaging, and security documentation.
+- [x] Local API concurrency smoke with failure rate, throughput, mean, P50, P95, and max.
 - [ ] AutoDL synthetic media generated and archived with SHA-256.
 - [ ] faster-whisper ASR measured on RTX 4090.
 - [ ] BGE-M3 retrieval measured on RTX 4090.
