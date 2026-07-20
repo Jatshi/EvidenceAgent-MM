@@ -23,7 +23,7 @@ Release acceptance requires: core tests and coverage gate pass; Bronze benchmark
 - [x] Qwen3-8B constrained generation measured on RTX 4090.
 - [x] OCR adapter measured on the generated slides.
 - [x] Diarization path measured with Community-1 or documented Plan B.
-- [ ] Release artifacts, exact dependency freeze, GitHub repository, and v0.1.0 release published.
+- [x] Release artifacts, exact dependency freeze, GitHub repository, and v0.1.0 release published.
 
 ## Decision log
 

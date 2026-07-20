@@ -27,3 +27,11 @@ The authoritative GPU reports are stored under `benchmarks/results/gpu/`.
 - OCR runtime provenance: `benchmarks/results/gpu/ocr_environment.json`; Paddle reused the audited CUDA 12.8/cuDNN 9.10 shared libraries from the isolated GPU environment through `LD_LIBRARY_PATH`.
 
 Each report must contain GPU name, driver, model name/revision, runtime, output, and the generating command. Missing reports mean the integration has not been verified.
+
+## Release verification
+
+- Repository: `https://github.com/Jatshi/EvidenceAgent-MM`
+- Release: `https://github.com/Jatshi/EvidenceAgent-MM/releases/tag/v0.1.0`
+- CI compatibility implementation commit: `c458f08dd19e05f431f5f0fe700f6e6ca22bd7b2`
+- Assets: wheel, source distribution, CC0 demo media, benchmark/results bundle, and `SHA256SUMS`.
+- CI: Python 3.10 and 3.12 matrix passed Ruff, formatting, Mypy, 29 tests with coverage gate, and package build.
