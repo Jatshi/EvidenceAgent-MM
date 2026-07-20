@@ -1,0 +1,5 @@
+c9c6997a03ea4e4a7f209de122d11c9ecc547723beb7e9eeb4ac50a883850179  data/raw/demo_meeting/meeting.mp4
+1e6f06188351a20bcce9a652860b2c1cfe3a821b364927c0008d20dd81e3b147  data/raw/demo_meeting/meeting.wav
+f9488f3baa201b62a618bee0f4289b22179cdde0d3af47c50e245058520f79fd  data/raw/demo_meeting/slide-1.png
+5be328cdb2c7b09b84555cee2c27dbfc8369f241a85e1a12faa4111bbcd995cc  data/raw/demo_meeting/slide-2.png
+501f99e6c90c73bf21e41df2285096ab3c3c12b2b7c42aca0c14c7154a2d5190  data/raw/demo_meeting/manifest.json

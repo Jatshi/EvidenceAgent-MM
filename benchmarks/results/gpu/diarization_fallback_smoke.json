@@ -1,0 +1,46 @@
+{
+  "backend": "energy-turn-detector",
+  "is_full_speaker_diarization": false,
+  "limitation": "detects speech turns; sequential IDs are not reusable speaker identities",
+  "gold_turns": 2,
+  "predicted_turns": 2,
+  "mean_temporal_iou": 0.9137589602966408,
+  "atoms": [
+    {
+      "evidence_id": "synthetic-diarization-smoke:vad:000",
+      "session_id": "synthetic-diarization-smoke",
+      "modality": "audio",
+      "start_ms": 0,
+      "end_ms": 5820,
+      "text": "",
+      "source_uri": "media://meeting.wav#t=0.000,5.820",
+      "speaker_id": "SPEAKER_00",
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.5,
+      "attributes": {
+        "backend": "energy-turn-detector",
+        "limitation": "turn index is not speaker identity",
+        "rms_threshold": 150.0
+      }
+    },
+    {
+      "evidence_id": "synthetic-diarization-smoke:vad:001",
+      "session_id": "synthetic-diarization-smoke",
+      "modality": "audio",
+      "start_ms": 7770,
+      "end_ms": 11910,
+      "text": "",
+      "source_uri": "media://meeting.wav#t=7.770,11.910",
+      "speaker_id": "SPEAKER_01",
+      "page_no": null,
+      "bbox": null,
+      "confidence": 0.5,
+      "attributes": {
+        "backend": "energy-turn-detector",
+        "limitation": "turn index is not speaker identity",
+        "rms_threshold": 150.0
+      }
+    }
+  ]
+}

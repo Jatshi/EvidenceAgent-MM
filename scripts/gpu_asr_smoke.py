@@ -8,8 +8,12 @@ import subprocess
 import time
 from pathlib import Path
 
+import ctranslate2
+import faster_whisper
+
 from evidenceagent_mm.evaluation import word_error_rate
 from evidenceagent_mm.perception import FasterWhisperASR
+from evidenceagent_mm.provenance import huggingface_cache_revision
 
 
 def gpu_state() -> str:
@@ -35,9 +39,14 @@ def main() -> int:
     adapter = FasterWhisperASR(args.model)
     atoms = adapter.transcribe(args.media, "synthetic-gpu-smoke")
     elapsed = time.perf_counter() - started
+    model_id = args.model if "/" in args.model else f"Systran/faster-whisper-{args.model}"
     result = {
         "backend": "faster-whisper",
         "model": args.model,
+        "model_id": model_id,
+        "model_revision": huggingface_cache_revision(model_id),
+        "faster_whisper_version": faster_whisper.__version__,
+        "ctranslate2_version": ctranslate2.__version__,
         "gpu_before": before,
         "gpu_after": gpu_state(),
         "elapsed_seconds": elapsed,

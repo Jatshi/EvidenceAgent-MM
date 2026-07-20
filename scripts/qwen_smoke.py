@@ -4,11 +4,16 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import time
 from pathlib import Path
 
+import torch
+import transformers
+
 from evidenceagent_mm.generation import QwenEvidenceGenerator
+from evidenceagent_mm.provenance import huggingface_cache_revision
 from evidenceagent_mm.schema import EvidenceAtom, Modality
 
 
@@ -41,15 +46,28 @@ def main() -> int:
             confidence=0.94,
         ),
     ]
+    torch.cuda.reset_peak_memory_stats()
     started = time.perf_counter()
     generator = QwenEvidenceGenerator(args.model)
+    loaded = time.perf_counter()
     answer = generator.generate("Who proposed design B, on which page, and why?", atoms)
-    elapsed = time.perf_counter() - started
+    finished = time.perf_counter()
+    normalized = re.sub(r"\W", "", answer.lower())
     result = {
         "model": args.model,
+        "model_revision": huggingface_cache_revision(args.model),
         "answer": answer,
         "contains_both_evidence_ids": all(atom.evidence_id in answer for atom in atoms),
-        "elapsed_seconds": elapsed,
+        "contains_required_facts": all(
+            fact in normalized for fact in ("speaker_00".replace("_", ""), "page1", "42")
+        ),
+        "model_load_seconds": loaded - started,
+        "generation_seconds": finished - loaded,
+        "elapsed_seconds": finished - started,
+        "peak_vram_mib": torch.cuda.max_memory_allocated() / (1024**2),
+        "torch_version": torch.__version__,
+        "torch_cuda_version": torch.version.cuda,
+        "transformers_version": transformers.__version__,
         "gpu": subprocess.check_output(
             ["nvidia-smi", "--query-gpu=name,driver_version,memory.total", "--format=csv,noheader"],
             text=True,
@@ -59,7 +77,7 @@ def main() -> int:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False))
-    return 0
+    return int(not (result["contains_both_evidence_ids"] and result["contains_required_facts"]))
 
 
 if __name__ == "__main__":
