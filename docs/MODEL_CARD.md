@@ -1,10 +1,35 @@
 # Model and system card
 
+## EvidenceAgent-MM 2.0 adapter
+
+The public trainable artifact is
+[jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA).
+It is a PEFT LoRA adapter over `Qwen/Qwen3-1.7B`, produced by the committed
+SFT -> DPO -> GRPO pipeline on one RTX 4090. The final GRPO stage ran for 100
+optimizer steps; mean shaped reward was 0.7101, rising from 0.5532 over the
+first 20 steps to 0.7796 over the final 20 steps.
+
+The 120-question synthetic benchmark uses session-level splits
+(8 train sessions/80 examples, 2 validation/20, 2 test/20). Both validation
+and test achieved a 0.920 composite contract score, with 1.000 valid-JSON and
+grounding scores, 0.800 citation score, and 0.800 abstention score. Test mean
+generation latency was 5.383 seconds, P95 was 6.281 seconds, and peak evaluation
+VRAM was 3.65 GiB.
+
+These figures validate the repository's output contract and evidence-control
+logic on a small synthetic benchmark. They do not establish real-meeting
+accuracy, semantic entailment, confidence calibration, speaker recognition,
+or broad domain generalization.
+
 ## System behavior
 
 EvidenceAgent-MM retrieves typed evidence, expands a bounded graph, verifies modality and support requirements, and returns one of three states. The default renderer is deterministic. Qwen3 generation is optional and runs only after evidence selection and gating.
 
-The public system-level Hugging Face card, machine-readable configuration, raw reports, and dependency provenance are available at <https://huggingface.co/jatshi/EvidenceAgent-MM>. This v0.1 release did not train a new neural checkpoint and does not relabel upstream weights.
+The historical v0.1 system-level repository remains available at
+<https://huggingface.co/jatshi/EvidenceAgent-MM>. That release did not train a
+new neural checkpoint and does not relabel upstream weights. The separate v2.0
+repository above contains only the trained adapter and its reproducibility
+metadata; users must obtain the attributed Qwen base model upstream.
 
 ## Model inventory
 

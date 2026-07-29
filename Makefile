@@ -1,4 +1,4 @@
-.PHONY: install lint test benchmark build serve
+.PHONY: install lint test benchmark build serve data-v2 dry-run-v2
 
 install:
 	python -m pip install -e '.[dev]'
@@ -19,3 +19,11 @@ build:
 
 serve:
 	eamm --db data/processed/evidence.db serve --host 127.0.0.1 --port 8000
+
+data-v2:
+	python scripts/build_v2_training_data.py
+
+dry-run-v2: data-v2
+	python scripts/train_v2.py --config configs/sft_4090.json --dry-run
+	python scripts/train_v2.py --config configs/dpo_4090.json --dry-run
+	python scripts/train_v2.py --config configs/grpo_4090.json --dry-run

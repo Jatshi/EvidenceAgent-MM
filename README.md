@@ -1,15 +1,79 @@
 # EvidenceAgent-MM
 
 [![CI](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml/badge.svg)](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-GRPO%20LoRA-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA)
 
 Evidence-grounded multimodal assistance for noisy meetings and classrooms.
 
 > Ask *who proposed what, when, and which slide was visible*. The system answers with claim-level citations, timestamps, speaker/page provenance, confidence, and a tool trace. If the evidence is ambiguous or insufficient, it asks a targeted question or abstains.
 
+## EvidenceAgent-MM 2.0
+
+Version 2.0 adds a post-training and data-flywheel layer without replacing the
+auditable deterministic agent or changing the existing `/v1` API:
+
+- versioned Pydantic/JSONL contracts for SFT, DPO, and GRPO;
+- deterministic training-data construction with session-level splits;
+- audio/ASR/acoustic attributes preserved in every evidence prompt;
+- offline-verifiable format, status, citation, grounding, and abstention rewards;
+- model-native chat templates with Qwen3 thinking disabled for constrained JSON;
+- chained SFT -> DPO -> GRPO adapters rather than three disconnected base-model runs;
+- consent-gated, deduplicated hard-case feedback export;
+- optional TRL/Transformers LoRA training for a single 24 GiB RTX 4090;
+- one-command AutoDL bootstrap, preflight, smoke run, and full run.
+
+The local repository contains complete runnable code and dependency-light dry-run
+validation. Machine-specific neural-training metrics are accepted only when the
+corresponding AutoDL run manifest and adapter artifact are present.
+
+```bash
+# Local: build and validate all contracts without Torch/TRL.
+python scripts/build_v2_training_data.py
+python scripts/train_v2.py --config configs/sft_4090.json --dry-run
+python scripts/train_v2.py --config configs/dpo_4090.json --dry-run
+python scripts/train_v2.py --config configs/grpo_4090.json --dry-run
+
+# AutoDL: after copying the repository to the instance.
+bash scripts/autodl_v2_bootstrap.sh
+bash scripts/autodl_v2_preflight.sh
+PORTFOLIO_V2_MODE=smoke bash scripts/autodl_v2_run.sh
+PORTFOLIO_V2_MODE=full bash scripts/autodl_v2_run.sh
+
+# Chaining is on by default. These explicit inputs also support a resumed stage.
+EAMM_GRPO_MODEL=/root/autodl-tmp/eamm-v2/dpo \
+  EAMM_V2_STAGES=grpo PORTFOLIO_V2_MODE=full \
+  bash scripts/autodl_v2_run.sh
+
+# Optional DeepSpeed launcher. world_size=1 is only a compatibility smoke test.
+EAMM_DEEPSPEED=zero2 EAMM_WORLD_SIZE=1 PORTFOLIO_V2_MODE=smoke \
+  bash scripts/autodl_v2_run.sh
+
+# Future multi-GPU acceptance run on a machine that actually has >=2 GPUs:
+EAMM_DEEPSPEED=zero3 EAMM_WORLD_SIZE=2 PORTFOLIO_V2_MODE=smoke \
+  bash scripts/autodl_v2_run.sh
+
+# Only after a completed run manifest and adapter exist:
+HF_TOKEN=... python scripts/publish_v2_adapter.py \
+  --artifact-dir /root/autodl-tmp/eamm-v2/grpo \
+  --repo-id jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA
+```
+
+See [the v2 training guide](docs/TRAINING_V2.md) and
+[the implementation plan](PROJECT_PLAN.md) for exact contracts, reward formulas,
+artifacts, and acceptance gates.
+
+DeepSpeed is an optional `distributed` dependency. The AutoDL bootstrap installs
+it by default; set `EAMM_INSTALL_DEEPSPEED=0` to skip it. Supported checked
+configurations are ZeRO-2 optimizer CPU offload and ZeRO-3 optimizer/parameter CPU
+offload under `configs/deepspeed/`. DeepSpeed runs deliberately disable 4-bit
+weights: this repository does not claim that bitsandbytes-quantized parameters can
+be safely partitioned by ZeRO. CPU offload also trades GPU memory for host RAM and
+transfer latency, so it is not automatically faster—or necessary—for Qwen3-1.7B
+on one 4090.
+
 ![EvidenceAgent-MM local evidence console](assets/evidenceagent-demo.png)
 
-[中文说明](README.zh-CN.md) · [From-scratch tutorial](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [Hugging Face](https://huggingface.co/jatshi/EvidenceAgent-MM) · [Architecture](docs/ARCHITECTURE.md) · [Dataset card](docs/DATASET_CARD.md) · [Model card](docs/MODEL_CARD.md) · [Security](SECURITY.md)
+[中文说明](README.zh-CN.md) · [From-scratch tutorial](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [Qwen3-1.7B GRPO LoRA](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA) · [Architecture](docs/ARCHITECTURE.md) · [Dataset card](docs/DATASET_CARD.md) · [Model card](docs/MODEL_CARD.md) · [Security](SECURITY.md)
 
 ## Why this is not another summary demo
 
@@ -19,7 +83,7 @@ Conventional meeting RAG loses speaker, time, and screen relationships when it s
 - `needs_clarification`: the question can become answerable after a precise follow-up;
 - `abstained`: required evidence is absent or support is below the validation threshold.
 
-The default agent is deterministic and auditable. Optional adapters add faster-whisper, BGE-M3, PaddleOCR, pyannote, and Qwen3-8B without making the core test suite depend on GPU libraries.
+The default agent remains deterministic and auditable. Optional adapters add faster-whisper, BGE-M3, PaddleOCR, pyannote, Qwen3 generation, and TRL post-training without making the core test suite depend on GPU libraries.
 
 ## Architecture
 
@@ -76,6 +140,36 @@ Verified CPU baseline (Python 3.11, July 20, 2026):
 The exact report is in `benchmarks/results/cpu_bronze.json`. GPU reports are generated by the scripts below and must include the model revision and device manifest before their numbers are quoted.
 
 The deterministic ablation report is in `benchmarks/results/ablations.json`. Restricting retrieval to top-1 reduces Evidence Recall@5 to 0.5 and three-state accuracy to 0.2. Removing graph expansion or the visual gate has no measurable effect on Bronze because every session contains only three clean atoms; this negative result is why the dataset card does not present Bronze as a graph-reasoning benchmark.
+
+### Verified v2.0 post-training result
+
+The public [Qwen3-1.7B GRPO LoRA](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA)
+was produced on one RTX 4090 by the committed, genuinely chained
+SFT -> DPO -> GRPO pipeline. Data were split by session, not by question:
+8 sessions/80 examples for training, 2/20 for validation, and 2/20 for test.
+
+| Metric | Validation | Test |
+|---|---:|---:|
+| Composite contract score | 0.920 | 0.920 |
+| Valid JSON rate | 1.000 | 1.000 |
+| Grounding score | 1.000 | 1.000 |
+| Citation score | 0.800 | 0.800 |
+| Abstention score | 0.800 | 0.800 |
+| Mean generation latency | 5.290 s | 5.383 s |
+| Test P95 generation latency | — | 6.281 s |
+
+GRPO ran for 100 optimizer steps. Mean shaped reward was `0.7101`; the
+first-20-step mean was `0.5532` and the last-20-step mean was `0.7796`.
+Peak evaluation VRAM was 3.65 GiB. These results measure schema compliance,
+evidence references, and three-state control behavior on a small 120-question
+synthetic Bronze benchmark. They are not evidence of broad meeting-domain
+generalization or calibrated factual accuracy.
+
+The ablations are intentionally retained even where the result is negative.
+`top_k=1` reduced status accuracy to `0.2` and evidence recall to `0.5`;
+removing graph expansion or the visual gate made no difference on these clean,
+three-atom sessions. This exposes a benchmark limitation instead of implying
+that every component is independently validated.
 
 ## 4090 model checks
 
@@ -152,9 +246,13 @@ pytest --cov=evidenceagent_mm --cov-report=term-missing
 python -m build
 ```
 
-`uv.lock` pins the universal dependency graph. The AutoDL CUDA environment must still be created with `scripts/install_gpu_env.sh` so PyTorch comes from the official cu128 index.
+The historical `uv.lock` preserves the verified v0.1 integration environment.
+Version 2.0 training is installed by `scripts/autodl_v2_bootstrap.sh`, which first
+pins the official cu128 Torch wheel and then resolves the bounded `train` extra.
+Every completed training stage records the exact resolved Torch, Transformers,
+TRL, CUDA, GPU, Git revision, and peak VRAM in `run_manifest.json`.
 
-The current core suite contains 29 tests and enforces 80% branch-aware coverage. Optional model adapters are verified by explicit integration scripts on the target GPU.
+The current core suite contains 51 tests and enforces 80% branch-aware coverage. Optional model adapters are verified by explicit integration scripts on the target GPU.
 
 ## Scope and safety
 

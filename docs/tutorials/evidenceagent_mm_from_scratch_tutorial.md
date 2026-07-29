@@ -977,8 +977,12 @@ v0.1 是可解释 baseline：
 
 ```python
 ambiguous_markers = (
-    "他", "她", "那个方案", "这位老师",
-    "the teacher", "that proposal",
+    "他",
+    "她",
+    "那个方案",
+    "这位老师",
+    "the teacher",
+    "that proposal",
 )
 ```
 
@@ -1624,6 +1628,181 @@ python scripts/ocr_smoke.py slide-1.png slide-2.png --device gpu
 8. OCR 进程是否找到 cuDNN shared library；
 9. FFmpeg/eSpeak/font 是否存在；
 10. 输出 JSON 是否记录实际版本与 revision。
+
+### 9.17 2.0 后训练：为什么必须是 SFT → DPO → GRPO
+
+v0.1 证明了“确定性证据系统可以工作”，2.0 进一步研究：一个小型语言模型能否学会同一套三态输出合同，并且在生成阶段保留引用、正确拒答。
+
+三个阶段解决的问题不同：
+
+| 阶段 | 输入 | 监督信号 | 真正学到什么 |
+|---|---|---|---|
+| SFT | prompt + gold response | token-level cross entropy | JSON 结构、字段、三态措辞和引用形式 |
+| DPO | prompt + chosen/rejected | 成对偏好 | 有引用优于无引用，正确拒答优于幻觉 |
+| GRPO | prompt + 多个采样 completion | 可执行 reward | 在没有逐 token gold 的情况下优化结构、grounding、citation 和 abstention |
+
+最关键的工程原则是**阶段必须真的串联**：
+
+```text
+Qwen3-1.7B
+  └─ SFT LoRA
+       └─ 作为可训练 adapter 加载进 DPO
+            └─ DPO LoRA 状态继续进入 GRPO
+                 └─ final GRPO adapter
+```
+
+如果三次训练都从 base model 重新开始，就只是三次互不相关的实验，不能称为一条后训练流水线。正式实现通过 `--model-name-or-path` 和阶段产物检查显式传递上一阶段 adapter；缺失 `adapter_config.json` 会直接失败。
+
+SFT 的核心目标可写成：
+
+\[
+\mathcal{L}_{SFT}
+=-\sum_{t=1}^{T}\log \pi_\theta(y_t\mid x,y_{<t})
+\]
+
+其中 \(x\) 是问题、候选证据和声学/视觉属性，\(y\) 是严格三态 JSON。SFT 的优势是稳定，局限是它把所有 token 一视同仁：一个标点错误和一个伪造引用都只是 token loss。
+
+DPO 直接比较 chosen \(y_w\) 与 rejected \(y_l\)：
+
+\[
+\mathcal{L}_{DPO}
+=-\log \sigma\left(
+\beta\left[
+\log\frac{\pi_\theta(y_w\mid x)}{\pi_{ref}(y_w\mid x)}
+-
+\log\frac{\pi_\theta(y_l\mid x)}{\pi_{ref}(y_l\mid x)}
+\right]\right)
+\]
+
+直觉上，模型不是被要求复述唯一答案，而是学习“哪一种行为更值得偏好”。本项目的偏好对包括：
+
+- 正确 evidence ID 对比编造或遗漏引用；
+- 证据不足时拒答对比强行回答；
+- 精确追问对比“请提供更多信息”式泛化追问；
+- 合法三态结构对比字段缺失或状态冲突。
+
+GRPO 对同一 prompt 生成一组回答 \(o_1,\ldots,o_G\)，用组内相对优势训练：
+
+\[
+A_i=\frac{r_i-\operatorname{mean}(r_1,\ldots,r_G)}
+{\operatorname{std}(r_1,\ldots,r_G)+\epsilon}
+\]
+
+再对策略概率比做裁剪，并使用 KL 约束避免远离参考策略。这里最重要的不是背公式，而是解释为什么它适合本项目：引用、JSON、状态、缺失证据和 unsupported claim 都能由程序判分，因此可以做 RLVR，而不必调用另一个不可审计的大模型充当裁判。
+
+### 9.18 组合奖励如何写成可测试纯函数
+
+2.0 奖励不是散落在 Trainer 里的字符串判断，而是独立纯函数。概念上：
+
+\[
+R =
+w_fR_{format}
++w_sR_{status}
++w_cR_{citation}
++w_gR_{grounding}
++w_aR_{abstention}
+-P_{unsupported}
+\]
+
+各分量分别回答：
+
+1. `format`：能否解析为合同要求的 JSON；
+2. `status`：answered、needs_clarification、abstained 是否正确；
+3. `citation`：gold evidence 是否被引用，是否引入不存在的 ID；
+4. `grounding`：claim 是否能映射到提供的证据；
+5. `abstention`：证据不足时是否说明缺什么，而不是猜测；
+6. `unsupported`：回答了材料中没有的事实时施加强惩罚。
+
+训练早期经常出现“几乎是 JSON，但多一个前缀”的 completion。如果一律给零分，组内多个样本可能全为零，优势也全为零，模型得不到方向。因此实现对近似合法结构提供最高 `0.75` 的 shaped reward，但只有完全通过合同和证据门才能获得满分。这个上限很重要：shaping 是学习路标，不能比真实目标更有吸引力。
+
+每个奖励函数都必须有以下单元测试：
+
+- 完全正确样本；
+- 完全非法 JSON；
+- 字段缺失；
+- 正确状态但引用错误；
+- 正确引用但 unsupported claim；
+- 应拒答却回答；
+- 应追问却泛泛拒答；
+- 权重边界和最终 reward 范围。
+
+面试时如果被问“GRPO 最大的坑是什么”，可以回答：不是 API 会不会调用，而是 reward 是否存在漏洞。模型会主动寻找“高分但无用”的捷径，所以必须保存分量、违规原因、原始 completion，并做 reward hacking 审计。
+
+### 9.19 本轮 RTX 4090 的真实结果怎么读
+
+本轮使用 `Qwen/Qwen3-1.7B`、LoRA、BF16，在单张 RTX 4090 上完成 SFT → DPO → 100 步 GRPO。训练数据来自 12 个合成 session、120 个问题，并按 session 切分：
+
+| split | session | 问题数 |
+|---|---:|---:|
+| train | 8 | 80 |
+| validation | 2 | 20 |
+| test | 2 | 20 |
+
+这样可以阻止同一场会议的证据同时出现在 train 和 test。它仍然只是一个小型 Bronze contract benchmark，不能代表真实会议分布。
+
+GRPO 实测：
+
+| 指标 | 数值 |
+|---|---:|
+| optimizer steps | 100 |
+| runtime | 1056.97 s |
+| samples/s | 0.757 |
+| mean shaped reward | 0.7101 |
+| first 20 reward mean | 0.5532 |
+| last 20 reward mean | 0.7796 |
+| min / max reward | 0.0646 / 0.9167 |
+| 非零梯度 step | 33 / 100 |
+
+“后 20 步高于前 20 步”是学习信号，但不能据此声称已经收敛，更不能把训练 reward 当成泛化准确率。真正的留出评测如下：
+
+| 指标 | validation | test |
+|---|---:|---:|
+| composite contract score | 0.920 | 0.920 |
+| valid JSON | 1.000 | 1.000 |
+| grounding | 1.000 | 1.000 |
+| citation | 0.800 | 0.800 |
+| abstention | 0.800 | 0.800 |
+| mean latency | 5.290 s | 5.383 s |
+| test P95 latency | — | 6.281 s |
+| peak evaluation VRAM | — | 3.65 GiB |
+
+消融结果也必须如实解释：
+
+- `top_k=1`：status accuracy 降到 `0.2`，evidence recall 降到 `0.5`，说明过早截断检索会破坏决策；
+- `no_graph`：没有下降；
+- `no_visual_gate`：没有下降；
+- negative false-answer case：得分为 `0`。
+
+后两个“无变化”不是证明组件没用，而是说明当前 Bronze session 只有三个干净 atom，缺少能让图扩展和视觉门发挥作用的困难案例。科学的说法是“benchmark 对这两个消融不敏感”，而不是虚构收益。
+
+最终 LoRA 已发布：
+
+```text
+https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA
+```
+
+它包含 adapter、tokenizer、训练配置和模型卡，不重新分发 Qwen base weights。
+
+### 9.20 单卡 DeepSpeed 到底证明了什么
+
+本项目在同一 RTX 4090 上实测 plain BF16、ZeRO-2 optimizer CPU offload 和 ZeRO-3 optimizer/parameter CPU offload：
+
+| 配置 | peak VRAM | runtime | samples/s |
+|---|---:|---:|---:|
+| plain BF16 | 8.97 GiB | 7.907 s | 2.023 |
+| ZeRO-2 CPU offload | 4.73 GiB | 11.810 s | 1.355 |
+| ZeRO-3 CPU + parameter offload | 3.48 GiB | 56.000 s | 0.286 |
+
+这说明 offload 能换取显存，但 PCIe 传输和 CPU 管理开销会显著降低吞吐。对 1.7B LoRA 而言，plain BF16 已能放下，因此 ZeRO-3 不是“越高级越快”。
+
+必须守住声明边界：
+
+- `WORLD_SIZE=1` 时没有第二个 data-parallel rank，不能证明跨 GPU 参数分片；
+- 单卡 ZeRO-3 证明的是 DeepSpeed Engine、checkpoint 和 CPU offload 集成；
+- 只有真实 2 卡以上 NCCL 日志、rank 间分片和扩展效率，才能写“多 GPU 分布式训练经验”；
+- 4090 的一个 GPU 内部当然有大量 CUDA 核并行，但这与 data-parallel ZeRO 不是同一概念。
+
+如果面试官问“为什么还实现 DeepSpeed”，正确回答是：为了构建可迁移到多卡的训练入口、理解 ZeRO 内存/吞吐权衡并用实测约束简历表述，不是为了把单卡伪装成多卡。
 
 ---
 

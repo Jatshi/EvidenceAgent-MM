@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.0.0 - prepared 2026-07-28
+
+- Add versioned SFT, DPO, and GRPO contracts and deterministic builders.
+- Preserve ASR and acoustic conditions in evidence-grounded training prompts.
+- Add verifiable citation, status, grounding, and abstention rewards.
+- Add consent-gated hard-case feedback and data-flywheel export.
+- Add optional single-4090 TRL LoRA training, dry-runs, and AutoDL orchestration.
+- Add optional DeepSpeed ZeRO-2/ZeRO-3 CPU-offload configurations, launcher
+  selection, validation, and explicit single-process versus multi-GPU evidence boundaries.
+- Preserve the deterministic Agent and all existing `/v1` routes.
+
 All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]

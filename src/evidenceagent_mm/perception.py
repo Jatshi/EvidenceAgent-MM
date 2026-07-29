@@ -8,8 +8,64 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+from pydantic import BaseModel, ConfigDict, Field
 
 from evidenceagent_mm.schema import EvidenceAtom, Modality
+
+
+class AcousticFeatures(BaseModel):
+    """Normalized acoustic metadata attached to an evidence atom."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    snr_db: float | None = None
+    rms_dbfs: float | None = None
+    overlap_probability: float | None = Field(default=None, ge=0.0, le=1.0)
+    speech_probability: float | None = Field(default=None, ge=0.0, le=1.0)
+    noise_type: str | None = None
+    language: str | None = None
+
+
+def asr_segment_to_evidence(
+    *,
+    session_id: str,
+    media_path: str | Path,
+    index: int,
+    start_seconds: float,
+    end_seconds: float,
+    text: str,
+    confidence: float,
+    backend: str,
+    model_name: str,
+    speaker_id: str | None = None,
+    acoustic: AcousticFeatures | None = None,
+    diagnostics: dict[str, Any] | None = None,
+) -> EvidenceAtom:
+    """Convert any ASR segment into the canonical evidence contract."""
+
+    start_ms = max(0, round(start_seconds * 1_000))
+    end_ms = max(start_ms + 1, round(end_seconds * 1_000))
+    attributes: dict[str, Any] = {
+        "asr": {
+            "backend": backend,
+            "model": model_name,
+            "diagnostics": diagnostics or {},
+        }
+    }
+    if acoustic is not None:
+        attributes["acoustic"] = acoustic.model_dump(exclude_none=True)
+    return EvidenceAtom(
+        evidence_id=f"{session_id}:asr:{index:05d}",
+        session_id=session_id,
+        modality=Modality.TRANSCRIPT,
+        start_ms=start_ms,
+        end_ms=end_ms,
+        speaker_id=speaker_id,
+        text=text.strip(),
+        source_uri=(f"media://{Path(media_path).name}#t={start_seconds:.3f},{end_seconds:.3f}"),
+        confidence=max(0.0, min(1.0, confidence)),
+        attributes=attributes,
+    )
 
 
 def ocr_evidence_id(
@@ -41,23 +97,35 @@ class FasterWhisperASR:
             from faster_whisper import WhisperModel
         except ImportError as exc:  # pragma: no cover - optional dependency
             raise RuntimeError("install evidenceagent-mm[gpu] for ASR") from exc
+        self.model_name = model_size
         self.model: Any = WhisperModel(model_size, device=device, compute_type=compute_type)
 
     def transcribe(self, media_path: str | Path, session_id: str) -> list[EvidenceAtom]:
-        segments, _ = self.model.transcribe(str(media_path), word_timestamps=True, vad_filter=True)
+        segments, info = self.model.transcribe(
+            str(media_path), word_timestamps=True, vad_filter=True
+        )
         atoms: list[EvidenceAtom] = []
         for index, segment in enumerate(segments):
             atoms.append(
-                EvidenceAtom(
-                    evidence_id=f"{session_id}:asr:{index:05d}",
+                asr_segment_to_evidence(
                     session_id=session_id,
-                    modality=Modality.TRANSCRIPT,
-                    start_ms=max(0, round(segment.start * 1_000)),
-                    end_ms=max(1, round(segment.end * 1_000)),
+                    media_path=media_path,
+                    index=index,
+                    start_seconds=float(segment.start),
+                    end_seconds=float(segment.end),
                     text=segment.text.strip(),
-                    source_uri=f"media://{Path(media_path).name}#t={segment.start:.3f},{segment.end:.3f}",
-                    confidence=max(0.0, min(1.0, float(getattr(segment, "avg_logprob", -1)) + 1)),
-                    attributes={"backend": "faster-whisper", "model": "runtime-configured"},
+                    confidence=float(getattr(segment, "avg_logprob", -1)) + 1,
+                    backend="faster-whisper",
+                    model_name=self.model_name,
+                    acoustic=AcousticFeatures(
+                        speech_probability=1.0 - float(getattr(segment, "no_speech_prob", 0.0)),
+                        language=str(getattr(info, "language", "")) or None,
+                    ),
+                    diagnostics={
+                        "avg_logprob": float(getattr(segment, "avg_logprob", -1.0)),
+                        "compression_ratio": float(getattr(segment, "compression_ratio", 0.0)),
+                        "no_speech_prob": float(getattr(segment, "no_speech_prob", 0.0)),
+                    },
                 )
             )
         return atoms

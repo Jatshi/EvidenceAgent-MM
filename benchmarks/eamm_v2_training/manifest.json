@@ -1,0 +1,16 @@
+{
+  "examples_per_stage": 120,
+  "files": {
+    "dpo": "dpo.jsonl",
+    "grpo": "grpo.jsonl",
+    "sft": "sft.jsonl"
+  },
+  "schema_version": "2.0",
+  "seed": 20260728,
+  "source": "benchmarks/eamm_bronze",
+  "split_counts_per_stage": {
+    "test": 20,
+    "train": 80,
+    "validation": 20
+  }
+}
