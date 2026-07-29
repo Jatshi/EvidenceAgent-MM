@@ -5,7 +5,12 @@ from pathlib import Path
 
 import numpy as np
 
-from evidenceagent_mm.perception import EnergyTurnDetector, ocr_evidence_id
+from evidenceagent_mm.perception import (
+    AcousticFeatures,
+    EnergyTurnDetector,
+    asr_segment_to_evidence,
+    ocr_evidence_id,
+)
 
 
 def test_energy_turn_detector_separates_long_silence(tmp_path) -> None:
@@ -38,3 +43,31 @@ def test_ocr_evidence_id_is_idempotent_and_image_specific(tmp_path: Path) -> Non
     assert evidence_id == ocr_evidence_id("session", first, 7_000, 0, 1)
     assert evidence_id != ocr_evidence_id("session", second, 7_000, 0, 1)
     assert evidence_id != ocr_evidence_id("session", first, 8_000, 0, 1)
+
+
+def test_asr_segment_adapter_preserves_acoustic_metadata() -> None:
+    atom = asr_segment_to_evidence(
+        session_id="session",
+        media_path="meeting.wav",
+        index=2,
+        start_seconds=1.0,
+        end_seconds=1.0,
+        text="robust speech evidence",
+        confidence=1.2,
+        backend="test-asr",
+        model_name="tiny",
+        speaker_id="SPEAKER_00",
+        acoustic=AcousticFeatures(
+            snr_db=-2.0,
+            overlap_probability=0.7,
+            speech_probability=0.9,
+            noise_type="babble",
+            language="en",
+        ),
+        diagnostics={"avg_logprob": -0.2},
+    )
+
+    assert atom.end_ms == atom.start_ms + 1
+    assert atom.confidence == 1.0
+    assert atom.attributes["asr"]["backend"] == "test-asr"
+    assert atom.attributes["acoustic"]["snr_db"] == -2.0

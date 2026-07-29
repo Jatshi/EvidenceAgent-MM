@@ -9,6 +9,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException, status
 from fastapi.responses import FileResponse
 
+from evidenceagent_mm import __version__
 from evidenceagent_mm.agent import EvidenceAgent
 from evidenceagent_mm.pipeline import ingest_fixture
 from evidenceagent_mm.retrieval import HybridRetriever
@@ -28,7 +29,7 @@ def create_app(db_path: str | Path = "data/processed/evidence.db") -> FastAPI:
 
     app = FastAPI(
         title="EvidenceAgent-MM",
-        version="0.1.0",
+        version=__version__,
         description="Evidence-grounded multimodal QA with explicit abstention.",
         lifespan=lifespan,
     )
@@ -36,7 +37,7 @@ def create_app(db_path: str | Path = "data/processed/evidence.db") -> FastAPI:
 
     @app.get("/health")
     def health() -> dict[str, str]:
-        return {"status": "ok", "version": "0.1.0"}
+        return {"status": "ok", "version": __version__}
 
     @app.post(
         "/v1/sessions/import-fixture",

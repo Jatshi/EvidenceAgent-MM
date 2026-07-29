@@ -1,6 +1,6 @@
 [project]
 name = "evidenceagent-mm"
-version = "0.1.0"
+version = "2.0.0"
 description = "Evidence-grounded multimodal assistant for noisy meetings and classrooms"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -25,6 +25,20 @@ gpu = [
 ]
 ocr = ["paddleocr>=3.0,<4"]
 diarization = ["pyannote.audio>=3.3,<5"]
+train = [
+  "accelerate>=1.2,<2",
+  "bitsandbytes>=0.45,<1",
+  "datasets>=3.2,<5",
+  "peft>=0.14,<1",
+  "sentencepiece>=0.2,<1",
+  "torch==2.10.0",
+  "transformers>=4.51,<6",
+  "trl>=0.19,<1",
+]
+distributed = [
+  "deepspeed>=0.16,<1",
+  "ninja>=1.11,<2",
+]
 dev = [
   "build>=1.2,<2",
   "httpx>=0.28,<1",
@@ -81,10 +95,14 @@ plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
 module = [
+  "datasets",
+  "deepspeed",
   "faster_whisper",
   "paddleocr",
+  "peft",
   "sentence_transformers",
   "torch",
   "transformers",
+  "trl",
 ]
 ignore_missing_imports = true

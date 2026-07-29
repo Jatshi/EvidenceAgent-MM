@@ -1,5 +1,31 @@
 # Run manifest
 
+## Version 2.0 local preparation (2026-07-28)
+
+- Training contracts: SFT, DPO, and GRPO schema version `2.0`.
+- Deterministic source: `benchmarks/eamm_bronze`.
+- Generated training rows: 120 per stage, grouped by session into 80 train,
+  20 validation, and 20 test examples.
+- Model configs: Qwen3-1.7B LoRA, single RTX 4090, 2,048-token context.
+- Local validation command: `make dry-run-v2`.
+- Local quality gates: 51 tests passed with 84.67% branch-aware coverage; Ruff
+  check/format passed; strict Mypy passed for 21 source files; Bash syntax passed;
+  the 2.0.0 wheel and sdist built offline.
+- Determinism: rebuilding all SFT/DPO/GRPO JSONL and the manifest produced
+  identical SHA-256 values.
+- DeepSpeed local preparation: ZeRO-2 optimizer CPU offload and ZeRO-3
+  optimizer/parameter CPU offload JSON passed structural validation. SFT/DPO/GRPO
+  accept the selected path through TRL/Transformers TrainingArguments.
+- DeepSpeed evidence boundary: local dry-runs at `world_size=1` prove configuration
+  compatibility only. A configured `world_size=2` dry-run is not runtime evidence.
+  No real multi-GPU result exists yet.
+- GPU status: not yet executed for 2.0. No trained adapter, learned metric, or 2.0
+  VRAM measurement is claimed.
+- Distributed status: not executed. The currently planned single-4090 instance
+  cannot pass the real `world_size>=2` acceptance gate.
+- Expected remote artifacts:
+  `/root/autodl-tmp/eamm-v2/{sft,dpo,grpo}/run_manifest.json`.
+
 ## CPU contract run
 
 - Date: 2026-07-20
