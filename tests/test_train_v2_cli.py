@@ -3,7 +3,11 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-import tomli
+
+try:
+    import tomllib
+except ImportError:  # pragma: no cover - exercised on Python 3.10 CI
+    import tomli as tomllib
 
 from scripts.train_v2 import build_parser
 
@@ -27,6 +31,6 @@ def test_training_cli_accepts_chained_adapter_input() -> None:
 
 
 def test_distributed_extra_includes_deepspeed_jit_builder() -> None:
-    pyproject = tomli.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+    pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
     dependencies = pyproject["project"]["optional-dependencies"]["distributed"]
     assert any(dependency.startswith("ninja") for dependency in dependencies)
