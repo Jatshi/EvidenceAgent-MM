@@ -9,7 +9,7 @@ import statistics
 import sys
 import time
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 from evidenceagent_mm.rewards import score_completion
 from evidenceagent_mm.training import _render_chat_template
@@ -59,7 +59,10 @@ def _validate_adapter(path: Path) -> dict[str, Any]:
     adapter_weights = list(path.glob("adapter_model.*"))
     if not manifest_path.is_file() or not adapter_config.is_file() or not adapter_weights:
         raise ValueError(f"{path} is not a complete PEFT adapter artifact")
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    raw_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if not isinstance(raw_manifest, dict) or not all(isinstance(key, str) for key in raw_manifest):
+        raise ValueError(f"{manifest_path} must contain a JSON object with string keys")
+    manifest = cast(dict[str, Any], raw_manifest)
     if manifest.get("status") != "completed":
         raise ValueError(f"{manifest_path} does not prove a completed run")
     return manifest
