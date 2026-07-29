@@ -977,8 +977,12 @@ v0.1 是可解释 baseline：
 
 ```python
 ambiguous_markers = (
-    "他", "她", "那个方案", "这位老师",
-    "the teacher", "that proposal",
+    "他",
+    "她",
+    "那个方案",
+    "这位老师",
+    "the teacher",
+    "that proposal",
 )
 ```
 
