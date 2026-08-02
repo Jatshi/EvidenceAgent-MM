@@ -41,12 +41,19 @@ class QwenEvidenceGenerator:
                 "role": "system",
                 "content": (
                     "You answer only from the supplied evidence. Do not invent names, times, pages, "
-                    "or conclusions. Keep bracketed evidence IDs in the answer."
+                    "or conclusions. Copy speaker and page labels exactly. Cite every evidence item "
+                    "used by copying its exact ID in square brackets; when transcript and slide "
+                    "jointly support the answer, cite both IDs. Preserve the IDs' original case."
                 ),
             },
             {
                 "role": "user",
-                "content": f"Question: {question}\nEvidence:\n" + "\n".join(evidence_lines),
+                "content": (
+                    f"Question: {question}\nEvidence:\n"
+                    + "\n".join(evidence_lines)
+                    + "\nReturn one concise sentence with the exact speaker label, page, numeric "
+                    "value, and all supporting bracketed evidence IDs."
+                ),
             },
         ]
         rendered = self.tokenizer.apply_chat_template(

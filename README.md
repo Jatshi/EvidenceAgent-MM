@@ -1,4 +1,9 @@
-# EvidenceAgent-MM 2.0
+# EvidenceAgent-MM 3.0
+
+> **GPU-validated research preview:** a real 50-step Qwen3-1.7B Agentic GRPO run,
+> replayable tool traces, dense trajectory rewards and a compact PEFT export are
+> documented in [`docs/V3_DEVELOPMENT.md`](docs/V3_DEVELOPMENT.md). The final
+> post-checkpoint rollout sync OOM is retained as an explicit claim boundary.
 
 <div align="center">
 
@@ -8,11 +13,11 @@
 [![CI](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml/badge.svg)](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-2563EB)](pyproject.toml)
 [![License](https://img.shields.io/badge/code-Apache--2.0-0F766E)](LICENSE)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Qwen3--1.7B%20GRPO%20LoRA-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Qwen3--1.7B%20Agentic%20GRPO%20v3-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-Agentic-GRPO-v3)
 
 *Ask who proposed what, when, and which slide was visible. Get replayable evidence—not a plausible paragraph.*
 
-[中文说明](README.zh-CN.md) · [2.0 release notes](docs/V2_RELEASE_NOTES.md) · [深度学习手册](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [Model weights](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA) · [API](#api)
+[3.0 upgrade & learning](docs/V3_DEVELOPMENT.md) · [中文说明](README.zh-CN.md) · [2.0 release notes](docs/V2_RELEASE_NOTES.md) · [深度学习手册](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [v3 model weights](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-Agentic-GRPO-v3) · [API](#api)
 
 ![EvidenceAgent-MM 2.0: ingest, retrieve, verify, answer or abstain](docs/assets/evidenceagent_v2_demo.gif)
 

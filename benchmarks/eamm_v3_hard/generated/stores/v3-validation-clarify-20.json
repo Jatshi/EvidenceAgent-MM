@@ -1,0 +1,15 @@
+{
+  "atoms": [
+    {
+      "confidence": 0.93,
+      "evidence_id": "v3-validation-clarify-20:utt:alice",
+      "text": "Alice proposed the blue deployment plan for the mobile service."
+    },
+    {
+      "confidence": 0.92,
+      "evidence_id": "v3-validation-clarify-20:utt:bob",
+      "text": "Bob proposed the green deployment plan for the data service."
+    }
+  ],
+  "session_id": "v3-validation-clarify-20"
+}

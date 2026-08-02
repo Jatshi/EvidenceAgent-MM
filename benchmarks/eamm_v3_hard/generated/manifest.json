@@ -1,0 +1,6 @@
+{
+  "case_file": "benchmarks/eamm_v3_hard/generated/cases.jsonl",
+  "schema_version": "eamm.agentic_cases.v3",
+  "train": 12,
+  "validation": 4
+}

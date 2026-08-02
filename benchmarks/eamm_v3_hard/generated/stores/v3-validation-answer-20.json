@@ -1,0 +1,20 @@
+{
+  "atoms": [
+    {
+      "confidence": 0.96,
+      "evidence_id": "v3-validation-answer-20:utt:1",
+      "text": "SPEAKER_00 proposed design V because measured P95 latency was 98 ms."
+    },
+    {
+      "confidence": 0.94,
+      "evidence_id": "v3-validation-answer-20:ocr:25",
+      "text": "Slide 25: Design V, P95 latency 98 ms."
+    },
+    {
+      "confidence": 0.91,
+      "evidence_id": "v3-validation-answer-20:utt:distractor",
+      "text": "A different speaker requested a budget review next week."
+    }
+  ],
+  "session_id": "v3-validation-answer-20"
+}

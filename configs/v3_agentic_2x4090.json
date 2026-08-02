@@ -1,0 +1,29 @@
+{
+  "schema_version": "eamm.agentic_run.v3.dev1",
+  "frameworks": {
+    "verl": "0.8.0",
+    "rollout_engine": "vllm",
+    "vllm": "0.12.0",
+    "training_backend": "fsdp2"
+  },
+  "model": {
+    "name_or_path": "Qwen/Qwen3-4B-Instruct-2507",
+    "adapter": "lora",
+    "gradient_checkpointing": true
+  },
+  "rollout": {
+    "mode": "async",
+    "return_raw_chat": true,
+    "agent_name": "tool_agent",
+    "samples_per_prompt": 4,
+    "max_turns": 6,
+    "max_unique_evidence": 12,
+    "max_tool_time_ms": 5000
+  },
+  "hardware": {
+    "required_gpus": 2,
+    "minimum_vram_gib_per_gpu": 24,
+    "single_gpu_mode": "smoke_only"
+  },
+  "status": "cpu_contract_verified_gpu_pending"
+}

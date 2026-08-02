@@ -1,0 +1,12 @@
+{
+  "tools": [
+    {
+      "class_name": "evidenceagent_mm.verl_tools.EvidenceSearchTool",
+      "config": {"type": "native", "version": "eamm.verl_tool.v3"}
+    },
+    {
+      "class_name": "evidenceagent_mm.verl_tools.ClaimVerificationTool",
+      "config": {"type": "native", "version": "eamm.verl_tool.v3"}
+    }
+  ]
+}

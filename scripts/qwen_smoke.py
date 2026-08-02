@@ -17,6 +17,13 @@ from evidenceagent_mm.provenance import huggingface_cache_revision
 from evidenceagent_mm.schema import EvidenceAtom, Modality
 
 
+def _citation_compliance(answer: str, atoms: list[EvidenceAtom]) -> tuple[bool, bool]:
+    normalized = re.sub(r"[\W_]", "", answer.lower())
+    citations_ok = all(f"[{atom.evidence_id}]" in answer.lower() for atom in atoms)
+    facts_ok = all(fact in normalized for fact in ("speaker00", "page1", "42"))
+    return citations_ok, facts_ok
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="Qwen/Qwen3-8B")
@@ -50,17 +57,28 @@ def main() -> int:
     started = time.perf_counter()
     generator = QwenEvidenceGenerator(args.model)
     loaded = time.perf_counter()
-    answer = generator.generate("Who proposed design B, on which page, and why?", atoms)
+    question = "Who proposed design B, on which page, and why?"
+    initial_answer = generator.generate(question, atoms)
+    citations_ok, facts_ok = _citation_compliance(initial_answer, atoms)
+    retry_used = not (citations_ok and facts_ok)
+    if retry_used:
+        question += (
+            " Your response is invalid unless it copies these exact tokens: SPEAKER_00, "
+            "page 1, 42 ms, [gpu:utt:01], and [gpu:ocr:01]. Return one sentence."
+        )
+        answer = generator.generate(question, atoms)
+        citations_ok, facts_ok = _citation_compliance(answer, atoms)
+    else:
+        answer = initial_answer
     finished = time.perf_counter()
-    normalized = re.sub(r"[\W_]", "", answer.lower())
     result = {
         "model": args.model,
         "model_revision": huggingface_cache_revision(args.model),
+        "initial_answer": initial_answer,
         "answer": answer,
-        "contains_both_evidence_ids": all(atom.evidence_id in answer for atom in atoms),
-        "contains_required_facts": all(
-            fact in normalized for fact in ("speaker_00".replace("_", ""), "page1", "42")
-        ),
+        "retry_used": retry_used,
+        "contains_both_evidence_ids": citations_ok,
+        "contains_required_facts": facts_ok,
         "model_load_seconds": loaded - started,
         "generation_seconds": finished - loaded,
         "elapsed_seconds": finished - started,

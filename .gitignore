@@ -36,6 +36,7 @@ wandb/
 mlruns/
 outputs/
 results/
+artifacts/
 *.ckpt
 *.pth
 *.pt
