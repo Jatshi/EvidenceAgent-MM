@@ -1,13 +1,26 @@
-# EvidenceAgent-MM
+# EvidenceAgent-MM 2.0
 
+<div align="center">
+
+**Evidence-grounded multimodal assistance for noisy meetings and classrooms.**
+
+[![Release](https://img.shields.io/badge/release-v2.0.0-7C3AED)](https://github.com/Jatshi/EvidenceAgent-MM/releases/tag/v2.0.0)
 [![CI](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml/badge.svg)](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-GRPO%20LoRA-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA)
+[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-2563EB)](pyproject.toml)
+[![License](https://img.shields.io/badge/code-Apache--2.0-0F766E)](LICENSE)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Qwen3--1.7B%20GRPO%20LoRA-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA)
 
-Evidence-grounded multimodal assistance for noisy meetings and classrooms.
+*Ask who proposed what, when, and which slide was visible. Get replayable evidence—not a plausible paragraph.*
 
-> Ask *who proposed what, when, and which slide was visible*. The system answers with claim-level citations, timestamps, speaker/page provenance, confidence, and a tool trace. If the evidence is ambiguous or insufficient, it asks a targeted question or abstains.
+[中文说明](README.zh-CN.md) · [2.0 release notes](docs/V2_RELEASE_NOTES.md) · [深度学习手册](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [Model weights](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA) · [API](#api)
 
-## EvidenceAgent-MM 2.0
+![EvidenceAgent-MM 2.0: ingest, retrieve, verify, answer or abstain](docs/assets/evidenceagent_v2_demo.gif)
+
+</div>
+
+> Every non-abstained claim carries citation IDs, audio/video timestamps, speaker/page provenance, confidence, and a bounded tool trace. Ambiguous questions trigger a targeted clarification; unsupported questions are refused.
+
+## What changed in 2.0
 
 Version 2.0 adds a post-training and data-flywheel layer without replacing the
 auditable deterministic agent or changing the existing `/v1` API:
@@ -58,7 +71,8 @@ HF_TOKEN=... python scripts/publish_v2_adapter.py \
   --repo-id jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA
 ```
 
-See [the v2 training guide](docs/TRAINING_V2.md) and
+See [the complete 2.0 release notes](docs/V2_RELEASE_NOTES.md),
+[the v2 training guide](docs/TRAINING_V2.md), and
 [the implementation plan](PROJECT_PLAN.md) for exact contracts, reward formulas,
 artifacts, and acceptance gates.
 
@@ -71,9 +85,14 @@ be safely partitioned by ZeRO. CPU offload also trades GPU memory for host RAM a
 transfer latency, so it is not automatically faster—or necessary—for Qwen3-1.7B
 on one 4090.
 
+<details>
+<summary>Static console screenshot</summary>
+
 ![EvidenceAgent-MM local evidence console](assets/evidenceagent-demo.png)
 
-[中文说明](README.zh-CN.md) · [From-scratch tutorial](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [Qwen3-1.7B GRPO LoRA](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA) · [Architecture](docs/ARCHITECTURE.md) · [Dataset card](docs/DATASET_CARD.md) · [Model card](docs/MODEL_CARD.md) · [Security](SECURITY.md)
+</details>
+
+[Architecture](docs/ARCHITECTURE.md) · [Dataset card](docs/DATASET_CARD.md) · [Model card](docs/MODEL_CARD.md) · [Security](SECURITY.md)
 
 ## Why this is not another summary demo
 
@@ -116,7 +135,7 @@ eamm --db /tmp/eamm.db benchmark benchmarks/eamm_bronze \
 eamm --db /tmp/eamm.db serve --host 127.0.0.1 --port 8000
 ```
 
-Open `http://127.0.0.1:8000`. The demo binds to localhost by default because v0.1 has no authentication.
+Open `http://127.0.0.1:8000`. The demo binds to localhost by default because the core demo API has no authentication.
 
 ## Reproduce the Bronze benchmark
 
@@ -203,7 +222,7 @@ The same deterministic API path on AutoDL completed `200` requests at concurrenc
 
 ## Reproducibility artifacts
 
-The public [Hugging Face system model repository](https://huggingface.co/jatshi/EvidenceAgent-MM) contains the machine-readable gate configuration, exact upstream revisions, raw CPU/GPU reports, dependency freezes, and the SHA-256 manifest for the verified AutoDL archive. EvidenceAgent-MM v0.1.0 does not claim newly trained neural weights, so official Qwen, BGE, Whisper, and Paddle checkpoints remain attributed to their upstream repositories rather than being renamed and redistributed as project weights.
+The historical [Hugging Face v0.1 system repository](https://huggingface.co/jatshi/EvidenceAgent-MM) contains the machine-readable gate configuration, exact upstream revisions, raw CPU/GPU reports, dependency freezes, and the SHA-256 manifest for the verified integration archive. Version 2.0 publishes only the newly trained [Qwen3-1.7B GRPO LoRA](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA); official BGE, Whisper, Paddle, and base Qwen checkpoints remain attributed to their upstream repositories.
 
 The local AutoDL archive was verified against the remote manifest: `174` files and `19,201,588,460` bytes matched SHA-256. It includes the exact model snapshots, source snapshot, all result JSON, synthetic media, and environment inventories. Virtual environments are intentionally excluded because Linux venvs are not portable to Windows; exact freezes and installation scripts are retained. See [the archive guide](docs/AUTODL_ARCHIVE.md) and verify any copy with:
 

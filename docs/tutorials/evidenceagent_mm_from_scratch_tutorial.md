@@ -2351,11 +2351,106 @@ no-graph 与 no-visual-gate 在 Bronze 没有差异。我没有把它包装成�
 
 ---
 
-## §E 官方资料与仓库入口
+## §E 2.0 实施日志：从方案到公开 adapter
+
+这一节按真实发生顺序复盘，不把最终代码倒推成一条从未出错的直线。面试官问
+“你遇到过什么困难”时，建议用“现象—定位证据—根因—修复—回归测试—边界”六步回答。
+
+### E.1 先冻结合同，再碰 GPU
+
+第一步不是装 CUDA，而是把 SFT、DPO、GRPO 的输入输出和 reward 写成 Pydantic
+合同，并在 CPU 上完成 dry-run。原因有两个：一是 4090 按时计费，schema、路径和
+split 错误不值得用 GPU 调；二是如果 reward 没有纯函数测试，训练曲线再漂亮也无法
+证明模型学到的是目标行为。
+
+实施顺序是：构建 Bronze → 按 session 切分 → 生成三类 JSONL → 校验每个引用均存在
+于 prompt evidence → dry-run 三阶段配置 → 才执行 AutoDL preflight。这个顺序把数据
+错误和 GPU/框架错误分开，减少了联调时的变量数。
+
+### E.2 坑一：不能把三阶段写成三个独立 LoRA
+
+最容易“看起来完成”但实际上错误的做法，是 SFT、DPO、GRPO 都从 base model 启动。
+这样能产出三个 adapter，却没有连续后训练。2.0 为每阶段 manifest 增加
+`input_model_or_adapter`，runner 默认把 SFT 输出传给 DPO，再把 DPO 输出传给 GRPO；
+恢复某一阶段时也必须显式解析前序 adapter。回归检查不只看目录存在，还检查 adapter
+来源链。如果面试官追问，关键点是：阶段可追溯性是训练语义的一部分，不是日志装饰。
+
+### E.3 坑二：Qwen thinking 与结构化 JSON 冲突
+
+Qwen3 默认思考输出会在受约束 JSON 前产生额外文本；sampling 还会增加格式波动。
+这里没有用正则把 JSON “抢救”出来冒充成功，而是在 model-native chat template 中
+关闭 thinking，评测采用确定性解码，同时保留 parser 的 fail-closed 行为。这样训练和
+部署使用同一消息模板，避免 train/serve skew。修复后的测试覆盖前导文本、缺字段和未知
+citation ID。
+
+### E.4 坑三：4-bit QLoRA 与 ZeRO 不能想当然叠加
+
+bitsandbytes 量化参数有自己的存储和设备语义；直接让 ZeRO 再切分并不等于得到可靠的
+“单卡并行”。项目最终规定：普通单卡路径可使用 LoRA/BF16；进入 DeepSpeed 对照时禁用
+4-bit 权重，分别运行 plain、ZeRO-2 CPU offload、ZeRO-3 parameter+optimizer offload。
+结果显示显存下降伴随明显吞吐损失，尤其 ZeRO-3 只有 `0.286 samples/s`。正确结论是
+单卡验证了兼容、checkpoint 和 offload，不是验证多卡通信或线性扩展。
+
+### E.5 坑四：CUDA wheel 与宿主驱动不匹配
+
+直接安装最新默认 PyTorch wheel 曾解析到 CUDA 13.0，而 AutoDL 驱动
+`570.124.04` 无法通过 CUDA availability gate。定位不是看 `nvidia-smi` 有 GPU 就结束，
+而是同时记录 driver、`torch.version.cuda`、`torch.cuda.is_available()` 和实际 tensor
+分配。bootstrap 最终固定官方 cu128 wheel，并让 preflight 在训练前失败。这类问题的
+可迁移经验是：驱动支持的 CUDA 上限、wheel 自带 runtime 和系统 toolkit 是三件事。
+
+### E.6 坑五：可选感知栈的依赖冲突
+
+PaddleOCR、pyannote、faster-whisper 与主训练栈依赖矩阵不同。把所有包塞进一个 venv
+会让一次升级破坏另一个模块。最终将 OCR 和 diarization 作为隔离的可选环境，核心
+合同测试不依赖大型 GPU 包；pyannote 还要求接受模型条款并通过环境变量读取 token。
+这既缩短 CI，也避免把凭据写入脚本。
+
+### E.7 坑六：漂亮的 1.0 分数可能只是 benchmark 太简单
+
+Bronze 上完整系统三态准确率和 Recall@5 都是 1.0，但 ECE 为 0.413；去掉 graph 或
+visual gate 也没有下降。这里没有调小阈值或筛掉负结果，而是把它定义为 contract
+benchmark，并保留消融。下一版需要加入 graph-dependent、跨说话人指代和 OCR 缺失
+的 hard cases。面试回答的亮点不是“我做到了满分”，而是“我知道这个满分没有证明什么”。
+
+### E.8 端到端发布过程
+
+1. 本地 CPU 运行 schema/reward/dry-run；
+2. AutoDL preflight 固定 CUDA、模型 revision、磁盘和 token 边界；
+3. 运行 SFT→DPO→GRPO，并保存每阶段 manifest；
+4. 在固定 validation/test 上重新加载最终 adapter 生成，而不是给 gold answer 打分；
+5. 跑消融和单卡 DeepSpeed 对照；
+6. 扫描源码、日志和交付包中的 SSH/HF/GitHub 凭据；
+7. 上传 adapter、tokenizer、模型卡、训练摘要和 SHA-256 到 Hugging Face；
+8. GitHub CI 通过后发布 `v2.0.0`，README 中只引用机器可读结果支持的数字。
+
+### E.9 四个可直接用于面试的 STAR 案例
+
+| 场景 | 任务 | 行动 | 结果与反思 |
+| --- | --- | --- | --- |
+| 三阶段来源可能断链 | 证明不是三次独立训练 | manifest 记录输入 adapter，并在 runner/test 校验 | 形成可审计链；学到 provenance 属于算法语义 |
+| Qwen 输出 JSON 前带思考 | 保持严格 response contract | 关闭 thinking/sampling，parser fail closed，补异常用例 | JSON 合法率达到 1.0，但仍单独报告 citation 0.8 |
+| DeepSpeed 显存低但很慢 | 解释是否值得用 ZeRO | 控制变量跑 plain/Z2/Z3，记录 VRAM 与吞吐 | Z3 最省显存但最慢；单卡 offload 是容量方案，不是加速 |
+| 消融无变化 | 判断模块是否有效 | 保留 no-graph/no-visual 结果并审计数据 | 发现 benchmark 识别力不足，提出 hard-case 设计 |
+
+### E.10 你应该亲手做的复现练习
+
+- 删除一个 citation ID，预测哪个 reward 分量下降并运行单测；
+- 把 session-level split 改成 question-level，写出泄漏反例；
+- 让 GRPO 直接从 base 启动，检查 manifest gate 如何失败；
+- 手算一条 shaped reward，再与代码输出逐项对齐；
+- 比较 plain/ZeRO-2/ZeRO-3 的“节省 1 GiB 付出的秒数”；
+- 构造一个必须沿 `shown_during` 边才能找回页面的 benchmark case。
+
+完成这些练习后，你应能把项目讲成一组可验证的设计决策，而不是背 README。
+
+---
+
+## §F 官方资料与仓库入口
 
 - GitHub：<https://github.com/Jatshi/EvidenceAgent-MM>
-- GitHub v0.1.0：<https://github.com/Jatshi/EvidenceAgent-MM/releases/tag/v0.1.0>
-- Hugging Face：<https://huggingface.co/jatshi/EvidenceAgent-MM>
+- GitHub v2.0.0：<https://github.com/Jatshi/EvidenceAgent-MM/releases/tag/v2.0.0>
+- Hugging Face adapter：<https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA>
 - Qwen3-8B：<https://huggingface.co/Qwen/Qwen3-8B>
 - BGE-M3：<https://huggingface.co/BAAI/bge-m3>
 - faster-whisper-small：<https://huggingface.co/Systran/faster-whisper-small>
