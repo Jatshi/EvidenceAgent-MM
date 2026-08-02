@@ -1,10 +1,25 @@
-# EvidenceAgent-MM：可验证多模态会议助手
+# EvidenceAgent-MM 2.0：可验证多模态会议助手
 
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM)
+<div align="center">
+
+[![Release](https://img.shields.io/badge/release-v2.0.0-7C3AED)](https://github.com/Jatshi/EvidenceAgent-MM/releases/tag/v2.0.0)
+[![CI](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml/badge.svg)](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Qwen3--1.7B%20GRPO%20LoRA-FFD21E)](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA)
+
+[2.0 新增内容](docs/V2_RELEASE_NOTES.md) · [从零手搓学习手册](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [模型权重](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-GRPO-LoRA) · [English](README.md)
+
+![EvidenceAgent-MM 2.0 动态演示](docs/assets/evidenceagent_v2_demo.gif)
+
+</div>
 
 用户可以问“谁在什么时候提出了什么方案、屏幕上是哪一页、依据是什么”。系统不会只生成一段摘要，而是返回逐主张引用、音视频时间戳、匿名说话人、屏幕页码、置信度和工具调用轨迹。
 
+<details>
+<summary>静态证据控制台</summary>
+
 ![EvidenceAgent-MM 本地证据控制台](assets/evidenceagent-demo.png)
+
+</details>
 
 证据门有三种输出：
 
