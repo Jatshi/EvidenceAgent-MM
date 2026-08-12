@@ -7,7 +7,7 @@ GROUND_TRUTH = {
 
 
 def test_exact_json_receives_full_reward() -> None:
-    prediction = '{"status":"answered","citation_ids":' '["session:utt:1","session:ocr:5"]}'
+    prediction = '{"status":"answered","citation_ids":["session:utt:1","session:ocr:5"]}'
     assert 0.98 < compute_score("evidenceagent_mm_v3", prediction, GROUND_TRUTH) <= 1.0
 
 
@@ -45,7 +45,7 @@ def test_efficiency_breaks_ties_without_overriding_correctness() -> None:
     concise = '{"status":"answered","citation_ids":["wrong"]}'
     verbose = "analysis " * 80 + concise
     exact_but_verbose = "analysis " * 80 + (
-        '{"status":"answered","citation_ids":' '["session:utt:1","session:ocr:5"]}'
+        '{"status":"answered","citation_ids":["session:utt:1","session:ocr:5"]}'
     )
     assert compute_score("evidenceagent_mm_v3", concise, GROUND_TRUTH) > compute_score(
         "evidenceagent_mm_v3", verbose, GROUND_TRUTH

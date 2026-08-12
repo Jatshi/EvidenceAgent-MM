@@ -24,7 +24,7 @@ try:
     )
 except ImportError as error:  # pragma: no cover - exercised in the remote optional env
     raise ImportError(
-        "EvidenceAgent verl tools require the optional Agentic-RL environment " "with verl==0.8.0."
+        "EvidenceAgent verl tools require the optional Agentic-RL environment with verl==0.8.0."
     ) from error
 
 
