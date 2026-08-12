@@ -76,6 +76,9 @@ omit = [
   "src/evidenceagent_mm/__main__.py",
   "src/evidenceagent_mm/generation.py",
   "src/evidenceagent_mm/perception.py",
+  # Requires the isolated VERL 0.8 Agentic-RL environment. Its contracts are
+  # covered by the dedicated reward/tool tests and the archived GPU smoke.
+  "src/evidenceagent_mm/verl_tools.py",
 ]
 
 [tool.coverage.report]
