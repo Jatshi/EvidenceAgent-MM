@@ -9,7 +9,7 @@
 
 **Evidence-grounded multimodal assistance for noisy meetings and classrooms.**
 
-[![Release](https://img.shields.io/badge/release-v2.0.0-7C3AED)](https://github.com/Jatshi/EvidenceAgent-MM/releases/tag/v2.0.0)
+[![Release](https://img.shields.io/badge/release-v3.0.0-7C3AED)](https://github.com/Jatshi/EvidenceAgent-MM/releases/tag/v3.0.0)
 [![CI](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml/badge.svg)](https://github.com/Jatshi/EvidenceAgent-MM/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-2563EB)](pyproject.toml)
 [![License](https://img.shields.io/badge/code-Apache--2.0-0F766E)](LICENSE)
@@ -17,13 +17,22 @@
 
 *Ask who proposed what, when, and which slide was visible. Get replayable evidence—not a plausible paragraph.*
 
-[3.0 upgrade & learning](docs/V3_DEVELOPMENT.md) · [中文说明](README.zh-CN.md) · [2.0 release notes](docs/V2_RELEASE_NOTES.md) · [深度学习手册](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [v3 model weights](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-Agentic-GRPO-v3) · [API](#api)
+[3.0 新增内容](docs/V3_RELEASE_NOTES_ZH.md) · [3.0 学习与踩坑手册](docs/V3_LEARNING_AND_INTERVIEW_ZH.md) · [完整开发复盘](docs/V3_DEVELOPMENT.md) · [2.0 发布说明](docs/V2_RELEASE_NOTES.md) · [2.0 从零学习](docs/tutorials/evidenceagent_mm_from_scratch_tutorial.md) · [v3 模型权重](https://huggingface.co/jatshi/EvidenceAgent-MM-Qwen3-1.7B-Agentic-GRPO-v3) · [API](#api)
 
-![EvidenceAgent-MM 2.0: ingest, retrieve, verify, answer or abstain](docs/assets/evidenceagent_v2_demo.gif)
+![EvidenceAgent-MM 3.0: ingest, retrieve, verify, answer or abstain](docs/assets/evidenceagent_v2_demo.gif)
 
 </div>
 
 > Every non-abstained claim carries citation IDs, audio/video timestamps, speaker/page provenance, confidence, and a bounded tool trace. Ambiguous questions trigger a targeted clarification; unsupported questions are refused.
+
+## What changed in 3.0
+
+3.0 adds a budgeted tool agent, replayable search/verification trajectories, prompt-
+injection boundaries, deterministic hard cases, VERL/GRPO training, dense trajectory
+rewards and a standard PEFT export. The RTX 4090 run completed 50 actor updates and
+saved the full step-50 checkpoint; the post-save rollout synchronization OOM remains
+an explicit claim boundary. See the [release notes](docs/V3_RELEASE_NOTES_ZH.md) and
+[learning/interview guide](docs/V3_LEARNING_AND_INTERVIEW_ZH.md).
 
 ## What changed in 2.0
 

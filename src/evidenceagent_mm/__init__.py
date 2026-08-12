@@ -4,4 +4,4 @@ from evidenceagent_mm.agent import EvidenceAgent
 from evidenceagent_mm.schema import AgentResponse, EvidenceAtom, Modality, ResponseStatus
 
 __all__ = ["AgentResponse", "EvidenceAgent", "EvidenceAtom", "Modality", "ResponseStatus"]
-__version__ = "2.0.0"
+__version__ = "3.0.0"

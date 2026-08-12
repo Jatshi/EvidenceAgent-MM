@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.0.0 - 2026-08-13
+
+- Added budgeted, replayable evidence search and claim-verification tool trajectories.
+- Added prompt-injection boundaries and deterministic hard cases for answer, clarify, and abstain.
+- Added VERL/GRPO trajectory training with dense rewards and non-zero-gradient gates.
+- Completed 50 RTX 4090 actor updates and exported a CUDA-validated 34MB PEFT adapter.
+- Added separate 3.0 release notes and a deep Chinese learning, failure, and interview guide.
+
 ## 2.0.0 - prepared 2026-07-28
 
 - Add versioned SFT, DPO, and GRPO contracts and deterministic builders.
